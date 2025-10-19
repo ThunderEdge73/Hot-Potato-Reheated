@@ -9,7 +9,7 @@
 ---@alias Jtem.CurrencyType
 ---| "dollars"          -- Traditional dollars
 ---| "plincoin"
----| "credits"
+---| "budget"
 ---| "joker_exchange"
 
 --- Delivery object.
@@ -213,11 +213,11 @@ G.FUNCS.hp_jtem_can_exchange_p2j = function(e)
     end
 end
 G.FUNCS.hp_jtem_can_exchange_c2j = function(e)
-    if (to_big(0) > to_big(G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)) or not G.GAME.hp_jtem_should_allow_buying_jx_from_credits then
+    if (to_big(0) > to_big(G.GAME.budget)) or not G.GAME.hp_jtem_should_allow_buying_jx_from_budget then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
-        e.config.colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE
+        e.config.colour = {0.8, 0.45, 0.85, 1}
         e.config.button = 'hp_jtem_exchange_c2j'
     end
 end
@@ -300,7 +300,7 @@ function G.FUNCS.hotpot_jtem_delivery_request_item(e)
     }
 end
 
-local currencies = { "dollars", "joker_exchange", "plincoin", "credits", "cryptocurrency" }
+local currencies = { "dollars", "joker_exchange", "plincoin", "budget", "cryptocurrency" }
 local function hpot_create_joker_from_amazon(card, center)
     -- factors are more fucked when requesting
     local should_spawn_with_rental = pseudorandom("hpjtem_delivery_rental") < 0.3 and true
@@ -313,10 +313,10 @@ local function hpot_create_joker_from_amazon(card, center)
         price_factor = 12942
     elseif currency == "plincoin" then
         price_factor = 0.75
-    elseif currency == "credits" then
+    elseif currency == "budget" then
         price_factor = 20
     end
-    local credits = currency == "credits"
+    local budget = currency == "budget"
     local plincoin = currency == "plincoin"
     local jx = currency == "joker_exchange"
     local stickers = get_stickers(center)
@@ -326,7 +326,7 @@ local function hpot_create_joker_from_amazon(card, center)
     local create_card_args = {
         hp_jtem_silent_edition = plincoin and poll_edition("hpjtem_delivery_edition", nil, nil, true) or
             (not jx and poll_edition("hpjtem_delivery_edition")),
-        no_edition = jx or credits,
+        no_edition = jx or budget,
         bypass_discovery_ui = true,
         bypass_discovery_center = true,
         stickers = stickers,
@@ -342,9 +342,9 @@ local function hpot_create_joker_from_amazon(card, center)
             price_factor = price_factor * (SMODS.Sticker.obj_table[v].hpot_amazon_price or SMODS.Sticker.obj_table[v].hpot_delivery_price or 0.95)
         end
     end
-    if center.credits then
+    if center.budget then
         hotpot_jtem_add_to_offers(center.key, {
-            price = { currency = currency, value = math.ceil(center.credits / 7 * price_factor * random_price_factor) },
+            price = { currency = currency, value = math.ceil(center.budget / 7 * price_factor * random_price_factor) },
             rounds_total_factor = 0.4 * (should_spawn_with_perishable and 0.6 or 1) *
                 (should_spawn_with_rental and 0.6 or 1) * (should_spawn_with_rental and 0.5 or 1) *
                 (plincoin and 2 or 1) * 1.5,
@@ -371,7 +371,7 @@ local function hpot_create_joker_from_amazon(card, center)
             create_card_args = {
                 hp_jtem_silent_edition = plincoin and poll_edition("hpjtem_delivery_edition", nil, nil, true) or
                     (not jx and poll_edition("hpjtem_delivery_edition")),
-                no_edition = jx or credits,
+                no_edition = jx or budget,
                 bypass_discovery_ui = true,
                 bypass_discovery_center = true,
                 stickers = {
@@ -432,7 +432,7 @@ end
 G.FUNCS.hp_jtem_exchange_c2j = function(e)
     G.SETTINGS.paused = true
     G.FUNCS.overlay_menu {
-        definition = G.UIDEF.hp_jtem_buy_jx("credits")
+        definition = G.UIDEF.hp_jtem_buy_jx("budget")
     }
 end
 G.FUNCS.hp_jtem_exchange_b2j = function(e)
@@ -685,7 +685,7 @@ function Game:init_game_object()
             rounds_total - rounds that you would have to wait in total
             price - cost in case of refunds (is a table now lol)
                 price.value and price.currency - should be self explanatory (ok so currency at the moment has 4,
-                    dollars, plincoin, credits, and joker exchange (internally spark_points) )
+                    dollars, plincoin, budget, and joker exchange (internally spark_points) )
             extras - other attributes that should apply to card ability directly, for example eternal, rental
     ]]
     ---@type Jtem.Delivery[]
@@ -704,7 +704,7 @@ function Game:init_game_object()
     r.hp_jtem_d2j_rate = { from = 1, to = 5000 }
     -- p2j is plincoin to joker exchange
     r.hp_jtem_p2j_rate = { from = 1, to = 32000 }
-    -- c2j is credits to joker exchange
+    -- c2j is budget to joker exchange
     r.hp_jtem_pcj_rate = { from = 1, to = 833 }
     r.hp_jtem_special_offer_count = 3
     r.hp_jtem_should_allow_custom_order = false
@@ -746,7 +746,8 @@ end
 function get_currency_amount(currency)
     currency = currency or "dollars"
     value = value or 0
-    if currency == "credits" then return G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits end
+    if currency == "credits" then return G.PROFILES[G.SETTINGS.profile].TNameCredits end
+    if currency == "budget" then return G.GAME.budget end
     if currency == "dollars" then return G.GAME.dollars end
     if currency == "plincoin" then return G.GAME.plincoins end
     if currency == "joker_exchange" then return G.GAME.spark_points end
@@ -756,7 +757,8 @@ end
 function ease_currency(currency, value, instant)
     currency = currency or "dollars"
     value = value or 0
-    if currency == "credits" or currency == 'all' then HPTN.ease_credits(value, instant) end
+    if currency == "credits" or currency == 'all' then ease_credits(value, instant) end
+    if currency == "budget" or currency == 'all' then HPTN.ease_budget(value, instant) end
     if currency == "dollars" or currency == 'all' then ease_dollars(value, instant) end
     if currency == "plincoin" or currency == 'all' then ease_plincoins(value, instant) end
     if currency == "joker_exchange" or currency == 'all' then ease_spark_points(value, instant) end
@@ -766,7 +768,7 @@ end
 
 function generate_currency_string_args(currency)
     currency = currency or "dollars"
-    if currency == "credits" then return { colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE, symbol = G.GAME.seeded and "e." or "c.", font = G.LANG.font } end
+    if currency == "budget" then return { colour = {0.8, 0.45, 0.85, 1}, symbol = "e.", font = G.LANG.font } end
     if currency == "dollars" then return { colour = G.C.MONEY, symbol = "$", font = G.LANG.font } end
     if currency == "plincoin" then
         return {
@@ -870,12 +872,12 @@ function hotpot_jtem_generate_special_deals(deals)
             price_factor = 7331
         elseif currency == "plincoin" then
             price_factor = 0.3
-        elseif currency == "credits" then
+        elseif currency == "budget" then
             price_factor = 10
         elseif currency == "cryptocurrency" then
             price_factor = 0.1
         end
-        local credits = currency == "credits"
+        local budget = currency == "budget"
         local plincoin = currency == "plincoin"
         local jx = currency == "joker_exchange"
         local bc = currency == "cryptocurrency"
@@ -891,16 +893,16 @@ function hotpot_jtem_generate_special_deals(deals)
         local create_card_args = {
             hp_jtem_silent_edition = plincoin and poll_edition("hpjtem_delivery_edition", nil, nil, true) or
                 (not jx and poll_edition("hpjtem_delivery_edition")),
-            no_edition = jx or credits,
+            no_edition = jx or budget,
             bypass_discovery_ui = true,
             bypass_discovery_center = true,
             stickers = stickers,
             no_stickers = true
         }
     if create_card_args.hp_jtem_silent_edition == nil then create_card_args.hp_jtem_silent_edition = "e_base" end
-        if center and center.credits then
+        if center and center.budget then
             hotpot_jtem_add_to_offers(center.key, {
-                price = { currency = currency, value = math.ceil(center.credits / 7 * price_factor * random_price_factor) },
+                price = { currency = currency, value = math.ceil(center.budget / 7 * price_factor * random_price_factor) },
                 rounds_total_factor = 0.4 * (should_spawn_with_perishable and 0.2 or 1) *
                     (should_spawn_with_rental and 0.3 or 1) * (should_spawn_with_rental and 0.5 or 1) *
                     (plincoin and 2 or 1),

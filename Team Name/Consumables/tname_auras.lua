@@ -28,13 +28,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.credits },
-			key = key
+			vars = { hpt.credits }
 		}
 	end,
 	can_use = function(self, card)
@@ -56,7 +52,7 @@ SMODS.Consumable({
         delay(0.6)
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				HPTN.ease_credits(hpt.credits, false)
+				HPTN.ease_budget(hpt.credits, false)
 				return true
 			end,
 		}))
@@ -83,13 +79,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.credits },
-			key = key
+			vars = { hpt.credits }
 		}
 	end,
 	can_use = function(self, card)
@@ -124,7 +116,7 @@ SMODS.Consumable({
 					SMODS.Stickers[g(v)]:apply(v, true)
 					v:juice_up()
 					play_sound('card1')
-					HPTN.ease_credits(hpt.credits)
+					HPTN.ease_budget(hpt.credits)
 					return true
 				end
 			}))
@@ -153,13 +145,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.leavinghands, hpt.credits, hpt.leavinghands > 1 and "s" or ""},
-			key = key
+			vars = { hpt.leavinghands, hpt.credits, hpt.leavinghands > 1 and "s" or ""}
 		}
 	end,
 	can_use = function(self, card)
@@ -180,7 +168,7 @@ SMODS.Consumable({
 		}))
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				HPTN.ease_credits(hpt.leavinghands * hpt.credits, false)
+				HPTN.ease_budget(hpt.leavinghands * hpt.credits, false)
 				return true
 			end,
 		}))
@@ -207,13 +195,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.credits },
-			key = key
+			vars = { hpt.credits }
 		}
 	end,
 	can_use = function(self, card)
@@ -223,7 +207,7 @@ SMODS.Consumable({
 		local hpt = card.ability.extra
 		local g = G.GAME.dollars
 		ease_dollars(-G.GAME.dollars, true)
-		HPTN.ease_credits(math.floor(hpt.credits * g), false)
+		HPTN.ease_budget(math.floor(hpt.credits * g), false)
 	end,
 })
 
@@ -248,13 +232,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.slots, hpt.credits },
-			key = key
+			vars = { hpt.slots, hpt.credits }
 		}
 	end,
 	can_use = function(self, card)
@@ -267,7 +247,7 @@ SMODS.Consumable({
 				if G.consumeables then
 					G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra.slots
 				end
-				HPTN.ease_credits(hpt.slots * hpt.credits)
+				HPTN.ease_budget(hpt.slots * hpt.credits)
 				return true
 			end,
 		}))
@@ -295,13 +275,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.max, hpt.credits },
-			key = key
+			vars = { hpt.max, hpt.credits }
 		}
 	end,
 	can_use = function(self, card)
@@ -312,8 +288,8 @@ SMODS.Consumable({
 			SMODS.Stickers.hpot_overclock:apply(G.jokers.cards[i], true)   
         end
 		local hpt = card.ability.extra
-		local retval = math.min(hpt.max, (hpt.credits - 1) * (G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits))
-		HPTN.ease_credits(retval, false)
+		local retval = math.min(hpt.max, (hpt.credits - 1) * G.GAME.budget)
+		HPTN.ease_budget(retval, false)
 	end,
 })
 
@@ -337,13 +313,9 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.credits },
-			key = key
+			vars = { hpt.credits }
 		}
 	end,
 	can_use = function(self, card)
@@ -351,7 +323,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		local hpt = card.ability.extra
-		HPTN.ease_credits(hpt.credits, false)
+		HPTN.ease_budget(hpt.credits, false)
 	end,
 })
 		local calc_amount_increased = function(amount, initial, scaling)
@@ -379,25 +351,15 @@ SMODS.Consumable({
 	soul_pos = { x = 4, y = 1 },
 	config = {
 		extra = {
-			credits = 150,
-			increment = 30,
-			maximum = 15
+			credits = 3
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
 			vars = {
-				hpt.credits,
-				math.min(math.max(0, calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), hpt.credits, hpt.increment)), hpt.maximum),
-				((math.floor((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits) / hpt.credits) < 0) and "") or "+",
-				hpt.increment,
-				hpt.maximum,
-			},
-			key = key
+				hpt.credits
+			}
 		}
 	end,
 	hotpot_credits = {
@@ -406,31 +368,13 @@ SMODS.Consumable({
 		code = { "GoldenLeaf" },
 		team = { "Team Name" },
 	},
-	in_pool = function (self, args)
-		if G.jokers then
-			if #G.jokers.cards > 0 and calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), self.config.extra.credits, self.config.extra.increment) > 0 then
-				return true
-			end
-		end
-		return false
-	end,
 	can_use = function(self, card)
-		local hpt = card.ability.extra
-		return ((#G.jokers.cards > 0) and (calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), hpt.credits, hpt.increment) > 0))
-            and G.jokers.cards[1] and G.jokers.cards[1].config and G.jokers.cards[1].config.center_key ~= "j_hpot_child"
+		return true
 	end,
 	use = function(self, card, area, copier)
 		local hpt = card.ability.extra
-		local a = math.min(math.max(0, calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), hpt.credits, hpt.increment)), hpt.maximum)
-		HPTN.ease_credits(-(G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits), false)
-		local target_card_key = G.jokers.cards[1].config.center_key
-		if target_card_key ~= nil and target_card_key ~= "j_hpot_child" then
-			for i = 1, a do
-				SMODS.add_card {
-					key = target_card_key,
-					edition = "e_negative"
-				}
-			end
-		end
+		local credits = G.PROFILES[G.SETTINGS.profile].TNameCredits;
+		local retval = (hpt.credits - 1) * credits
+		ease_credits(retval, false)
 	end,
 })

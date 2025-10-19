@@ -31,7 +31,7 @@ local tname_postcard_funcs = {
     GoldenLeaf = function(self, card, context)
         local fuck = card.ability.extra.functions
         if context.joker_main then
-            HPTN.ease_credits(fuck.GoldenLeaf[1], false)
+            HPTN.ease_budget(fuck.GoldenLeaf[1], false)
             return { message = localize("k_hotpot_added") }
         end
     end,
@@ -127,11 +127,7 @@ SMODS.Joker {
 	},
 	loc_vars = function(self, info_queue, card)
 		local key, vars, ret
-		local fucking = G.GAME.seeded and "_budget" or ""
-		if G.GAME.current_team_name_member ~= 3 then
-			fucking = ""
-		end
-		key = (self.key .. "_" .. G.GAME.current_team_name_member..fucking)
+		key = (self.key .. "_" .. G.GAME.current_team_name_member)
 		vars = {
 			getcurrentperson((G.GAME.current_team_name_member or 1)),
 			card.ability.extra.functions.GoldenLeaf[1],

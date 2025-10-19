@@ -19,7 +19,7 @@ if card.config and card.config.center and card.config.center.credits and not G.H
 				n = G.UIT.R,
 				config = { align = "cm", colour = lighten(G.C.BLACK, 0.1), r = 0.1, minw = 1, minh = 0.55, emboss = 0.05, padding = 0.03 },
 				nodes = {
-					{ n = G.UIT.O, config = { object = DynaText({ string = { { prefix = G.GAME.seeded and "e." or 'c.', ref_table = card.config.center, ref_value = 'credits' } }, colours = { G.GAME.seeded and G.GAME.ORANGE or G.C.PURPLE }, shadow = true, silent = true, bump = true, pop_in = 0, scale = 0.5 }) } },
+					{ n = G.UIT.O, config = { object = DynaText({ string = { { prefix = "e.", ref_table = card.config.center, ref_value = 'credits' } }, colours = { {0.8, 0.45, 0.85, 1} }, shadow = true, silent = true, bump = true, pop_in = 0, scale = 0.5 }) } },
 				}
 			}
 		}
@@ -62,7 +62,7 @@ payload = '''
             {n=G.UIT.T, config={text = localize('b_sell'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
           }},
           {n=G.UIT.R, config={align = "cm"}, nodes={
-            {n=G.UIT.T, config={text = G.GAME.seeded and "e." or "c.",colour = G.C.WHITE, scale = 0.4, shadow = true}},
+            {n=G.UIT.T, config={text = "e.",colour = G.C.WHITE, scale = 0.4, shadow = true}},
              {n=G.UIT.T, config={ref_table = card, ref_value = 'sell_cost_label',colour = G.C.WHITE, scale = 0.55, shadow = true}}
           }}
         }}
@@ -143,7 +143,7 @@ payload = '''
 if c1.hpot_transaction_price then
   ease_currency(c1.hpot_transaction_price.currency, -c1.hpot_transaction_price.price)
 elseif c1.config and c1.config.center and c1.config.center.credits and not c1.market_cost then
-	HPTN.ease_credits(-c1.config.center.credits)
+	HPTN.ease_budget(-c1.config.center.credits)
 elseif c1.market_cost then
   if not Entropy or (not Entropy.has_rune("rune_entr_naudiz") or not G.GAME.providence) then
     ease_cryptocurrency(-c1.market_cost)
@@ -161,7 +161,7 @@ pattern = '''if self.cost > 0 then '''
 position = 'at'
 payload = '''
 if self.config and self.config.center and self.config.center.credits and not G.GAME.DefineBoosterState and not self.market_cost then
-	HPTN.ease_credits(-self.config.center.credits)
+	HPTN.ease_budget(-self.config.center.credits)
 elseif self.market_cost then
   ease_cryptocurrency(-self.market_cost)
 elseif self.cost > 0 then
@@ -182,7 +182,7 @@ position = 'at'
 payload = '''
     G.E_MANAGER:add_event(Event({trigger = 'immediate',func = function()
 	    if self.config.center.credits and not G.HP_HC_MARKET_VISIBLE then
-		HPTN.ease_credits(math.floor(self.config.center.credits/2))
+		HPTN.ease_budget(math.floor(self.config.center.credits/2))
 		else
         ease_dollars(self.sell_cost)
 		end

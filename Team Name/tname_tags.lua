@@ -5,15 +5,12 @@ SMODS.Tag({
 	pos = { x = 3, y = 0 },
 	min_ante = 3, 
 	loc_vars = function(self, info_queue, tag)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
-		return { vars = { tag.config.add }, key = key }
+		return { vars = { tag.config.add } }
 	end,
 	apply = function(self, tag, context)
 		if context.type == "immediate" then
-			tag:yep("+", G.GAME.seeded and G.C.ORANGE or G.C.PURPLE, function()
-				HPTN.ease_credits(tag.config.add)
+			tag:yep("+", {0.8, 0.45, 0.85, 1}, function()
+				HPTN.ease_budget(tag.config.add)
 				return true
 			end)
 			tag.triggered = true
@@ -113,18 +110,15 @@ SMODS.Tag({
 	config = { max = 45 },
 	min_ante = 3, 
 	loc_vars = function(self, info_queue, tag)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
-		return { vars = { tag.config.max }, key = key }
+		return { vars = { tag.config.max } }
 	end,
 	apply = function(self, tag, context)
 		if context.type == "immediate" then
-			tag:yep("+", G.GAME.seeded and G.C.ORANGE or G.C.PURPLE, function()
+			tag:yep("+", {0.8, 0.45, 0.85, 1}, function()
 				G.E_MANAGER:add_event(Event({
 					trigger = 'immediate',
 					func = function()
-						HPTN.ease_credits(math.min(tag.config.max, math.max(0, G.GAME.credits_text)), true)
+						HPTN.ease_budget(math.min(tag.config.max, math.max(0, G.GAME.budget_text)), true)
 						return true
 					end
 				}))

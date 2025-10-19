@@ -175,7 +175,7 @@ SMODS.Atlas{key = "tname_stakes2", path = "Team Name/tname_stakes2.png", px = 29
 G.FUNCS.can_sell_card = function(e)
     if e.config.ref_table:can_sell_card() then 
         if e.config.ref_table.config.center.credits then
-        e.config.colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE
+        e.config.colour = {0.8, 0.45, 0.85, 1}
         e.config.button = 'sell_card'
         else
         e.config.colour = G.C.GREEN

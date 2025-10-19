@@ -60,7 +60,8 @@ function loc_colour(_c, _default)
 		loc_old()
 	end
 	G.ARGS.LOC_COLOURS.hpot_rtg = SMODS.Gradients["hpot_red_to_green"]
-  G.ARGS.LOC_COLOURS.hpot_gtr = SMODS.Gradients["hpot_green_to_red"]
+  	G.ARGS.LOC_COLOURS.hpot_gtr = SMODS.Gradients["hpot_green_to_red"]
+  	G.ARGS.LOC_COLOURS.hpot_budget = {0.8, 0.45, 0.85, 1}
 	return loc_old(_c, _default)
 end
 

@@ -155,11 +155,12 @@ HotPotato.allcalcs = HotPotato.allcalcs or {
     "round_eval",
     "money_altered",
 }
+
 local maozedong = win_game
 function win_game()
     local ret = maozedong()
     if next(SMODS.find_card('j_hpot_social_credit')) then
-        HPTN.set_credits(0)
+        HPTN.set_budget(0)
     end
     return ret
 end
@@ -202,17 +203,13 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = true,
     loc_vars = function(self, info_queue, card)
-        local key
-        local fucking = G.GAME.seeded and "_budget" or ""
-        key = (self.key .. fucking)
         return {
             vars = {
                 card.ability.extra.credit_gain,
                 card.ability.extra.social_credit,
                 card.ability.extra.social_credit_max,
                 card.ability.extra.conversion_rate
-            },
-            key = key
+            }
         }
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -222,7 +219,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         if context.game_over then
-            HPTN.set_credits(0)
+            HPTN.set_budget(0)
         end
         local hpt = card.ability.extra
         if context[card.ability.china] and card.ability.trig == false and not context.blueprint then
@@ -244,12 +241,12 @@ SMODS.Joker {
             end
         end
         if context.end_of_round then
-            HPTN.ease_credits(hpt.credit_gain * math.floor(hpt.social_credit / hpt.conversion_rate))
+            HPTN.ease_budget(hpt.credit_gain * math.floor(hpt.social_credit / hpt.conversion_rate))
         end
         if context.selling_self and not context.blueprint then
             return {
                 message = 'No! Bad!',
-                HPTN.set_credits(0)
+                HPTN.set_budget(0)
             }
         end
         if context.post_trigger and context.other_card == card and card.ability.trig == true then
@@ -323,8 +320,8 @@ SMODS.Joker {
         if context.reforging and not context.free and not context.blueprint then
             if context.currency == "DOLLAR" then
                 ease_dollars(math.floor((G.GAME.cost_dollars - context.card.ability.reforge_dollars) * card.ability.extra))
-            elseif context.currency == "CREDIT" then
-                HPTN.ease_credits(math.floor((G.GAME.cost_credits - context.card.ability.reforge_credits) * card.ability.extra))
+            elseif context.currency == "BUDGET" then
+                HPTN.ease_budget(math.floor((G.GAME.cost_credits - context.card.ability.reforge_credits) * card.ability.extra))
             elseif context.currency == "SPARKLE" then
                 ease_spark_points(math.floor((G.GAME.cost_sparks - context.card.ability.reforge_sparks) * card.ability.extra))
             elseif context.currency == "PLINCOIN" then

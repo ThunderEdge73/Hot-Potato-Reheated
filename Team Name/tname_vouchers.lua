@@ -4,14 +4,10 @@ SMODS.Voucher {
 	atlas = "tname_vouchers",
 	pos = { x = 0, y = 0 },
     loc_vars = function (self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		return {
 			vars = {
 				(G.GAME.credits_cashout or 0)
-			},
-			key = key
+			}
 		}
 	end,
 	redeem = function(self, voucher)
@@ -30,14 +26,10 @@ SMODS.Voucher {
 	atlas = "tname_vouchers",
 	pos = { x = 1, y = 0 },
 	loc_vars = function (self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		return {
 			vars = {
 				(G.GAME.credits_cashout2 or 0)
-			},
-			key = key
+			}
 		}
 	end,
 	redeem = function(self, voucher)
@@ -102,7 +94,7 @@ SMODS.Voucher {
 	key = 'costcutting',
 	pos = { x = 2, y = 0 },
 	redeem = function(self, voucher)
-		G.GAME.cost_credits_default = G.GAME.cost_credit_default - 2
+		G.GAME.cost_credits_default = G.GAME.cost_budget_default - 2
 		G.GAME.cost_dollars_default = G.GAME.cost_dollars_default - 2
 		G.GAME.cost_sparks_default = G.GAME.cost_sparks_default - 2
 		G.GAME.cost_plincoins_default = G.GAME.cost_plincoins_default - 2

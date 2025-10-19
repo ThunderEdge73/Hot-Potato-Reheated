@@ -11,7 +11,7 @@ local function hp_jtem_buy_jx_individual( b_type, index )
     if b_type == "plincoins" then
         b_type = 'plincoin'
         am = "p2j"
-    elseif b_type == "credits" then
+    elseif b_type == "budget" then
         am = "c2j"
     elseif b_type == "cryptocurrency" then
         b_type = 'crypto'
@@ -30,7 +30,7 @@ local function hp_jtem_buy_jx_individual( b_type, index )
     end
     local args = generate_currency_string_args(b_type)
     local _y = b_type == "plincoin" and 1 or 0
-    if b_type == 'credits' then _y = 2 end
+    if b_type == 'budget' then _y = 2 end
     if b_type == "crypto" then _y = 3 end
     gives_out = {gives_out}
     local numbertext = {
@@ -56,7 +56,7 @@ local function hp_jtem_buy_jx_individual( b_type, index )
                 {n = G.UIT.O, config = {object = Sprite(0,0,1.3,1.3,G.ASSET_ATLAS['hpot_jtem_jx_bundle'],{ x = index - 1, y = _y})}},
             }},
             {n=G.UIT.R, config = { align = "bm", maxw = 1.8, minh = 0.4, maxh = 0.4 }, nodes = {
-                {n=G.UIT.O, config={object = DynaText({string = {localize("hotpot_exchange_option_"..(b_type == "plincoin" and "plin_" or b_type == "credits" and "cred_" or b_type == "crypto" and "crypto_" or "")..index)},
+                {n=G.UIT.O, config={object = DynaText({string = {localize("hotpot_exchange_option_"..(b_type == "plincoin" and "plin_" or b_type == "budget" and "cred_" or b_type == "crypto" and "crypto_" or "")..index)},
                     maxw = 1.8, colours = {G.C.WHITE}, font = SMODS.Fonts.hpot_plincoin, shadow = true, scale = 0.3})}}
             }},
             {n=G.UIT.R, config = { align = "cm", maxw = 1.8 }, nodes = numbertext},
@@ -117,8 +117,8 @@ G.UIDEF.hp_jtem_buy_jx = function (mode)
     if (mode == "plincoin" or (mode == "both")) and G.GAME.hp_jtem_should_allow_buying_jx_from_plincoin then
         table.insert(nds, hp_jtem_buy_jx_row( "plincoin" ))
     end
-    if (mode == "credits" or mode == "both_2") and G.GAME.hp_jtem_should_allow_buying_jx_from_credits then
-        table.insert(nds, hp_jtem_buy_jx_row( "credits" ))
+    if (mode == "budget" or mode == "both_2") and G.GAME.hp_jtem_should_allow_buying_jx_from_budget then
+        table.insert(nds, hp_jtem_buy_jx_row( "budget" ))
     end
 
     if (mode == "crypto" or mode == "both_2") and G.GAME.hp_jtem_should_allow_buying_jx_from_crypto then

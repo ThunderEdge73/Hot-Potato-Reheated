@@ -171,7 +171,7 @@ SMODS.Booster {
         code = {'lord.ruby'},
         team = {'Horsechicot'}
     },
-    credits = 100,
+    budget = 100,
     loc_vars = function(self, info_queue, card)
         return{vars={card.ability.choose, card.ability.extra, card.ability.team}, key = self.key:sub(1, -3)}
     end,

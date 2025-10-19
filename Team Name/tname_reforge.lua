@@ -143,13 +143,13 @@ function G.FUNCS.can_reforge(e)
     e.UIBox:get_UIE_by_ID('text_'..currency).config.object.colours = {result.config.colour}
 end
 
-function G.FUNCS.can_reforge_with_credits(e)
+function G.FUNCS.can_reforge_with_budget(e)
     if not HPTN.check_if_enough_credits(G.GAME.cost_credits) or not G.GAME.ref_placed then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
             e.config.button = nil
         else
-            e.config.colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE
-            e.config.button = 'reforge_with_credits'
+            e.config.colour = {0.8, 0.45, 0.85, 1}
+            e.config.button = 'reforge_with_budget'
         end
     end
 
@@ -194,11 +194,11 @@ function G.FUNCS.can_reforge_with_cryptocurrency(e)
     end
 --
 
-G.FUNCS.reforge_with_credits = function ()
-    HPTN.ease_credits(-G.GAME.cost_credits)
+G.FUNCS.reforge_with_budget = function ()
+    HPTN.ease_budget(-G.GAME.cost_credits)
     set_card_reforge() -- 
     update_reforge_cost()
-    reforge_card(G.reforge_area.cards[1], false, "CREDIT")
+    reforge_card(G.reforge_area.cards[1], false, "BUDGET")
     play_sound("hpot_tname_reforge")
 end
 

@@ -291,7 +291,7 @@ end
 function set_card_reforge(card, currency)
     card = card or G.reforge_area.cards[1]
     card.ability.reforge_dollars = reforge_cost(card)                                       -- get the reforge cost
-    card.ability.reforge_credits = convert_currency(reforge_cost(card), "DOLLAR", "CREDIT") -- convert the reforge cost to other currencties and set the card abilities accordingly
+    card.ability.reforge_credits = convert_currency(reforge_cost(card), "DOLLAR", "BUDGET") -- convert the reforge cost to other currencties and set the card abilities accordingly
     card.ability.reforge_sparks = convert_currency(reforge_cost(card), "DOLLAR", "SPARKLE")
     card.ability.reforge_plincoins = convert_currency(reforge_cost(card), "DOLLAR", "PLINCOIN")
     card.ability.reforge_cryptocurrency = convert_currency(reforge_cost(card), "DOLLAR", "CRYPTOCURRENCY")
@@ -336,7 +336,7 @@ end
 -- reseting the reforge cost
 function reset_reforge_cost() -- reset the cost to defults
     G.GAME.cost_dollars = G.GAME.cost_dollar_default
-    G.GAME.cost_credits = G.GAME.cost_credit_default
+    G.GAME.cost_credits = G.GAME.cost_budget_default
     G.GAME.cost_sparks = G.GAME.cost_spark_default
     G.GAME.cost_plincoins = G.GAME.cost_plincoin_default
     G.GAME.cost_cryptocurrency = G.GAME.cost_cryptocurrency_default
@@ -356,7 +356,7 @@ function final_ability_values(card) -- save the card's final values ( so it scal
     card.ability.reforge_cryptocurrency_default = card.ability.reforge_cryptocurrency
 
     card.ability.reforge_dollars = G.GAME.cost_dollars - G.GAME.cost_dollar_default
-    card.ability.reforge_credits = G.GAME.cost_credits - G.GAME.cost_credit_default
+    card.ability.reforge_credits = G.GAME.cost_credits - G.GAME.cost_budget_default
     card.ability.reforge_sparks = G.GAME.cost_sparks - G.GAME.cost_spark_default
     card.ability.reforge_plincoins = G.GAME.cost_plincoins - G.GAME.cost_plincoin_default
     card.ability.reforge_cryptocurrency = G.GAME.cost_cryptocurrency - G.GAME.cost_cryptocurrency_default
@@ -377,22 +377,22 @@ end
 --- Converts currency from one type into another type.
 ---
 --- @param amount number The amount of money in the original starting currency.
---- @param starting_currency "DOLLAR"|"CREDIT"|"SPARKLE"|"PLINCOIN"|"CRYPTOCURRENCY" The currency to convert from. Valid options for currencies currently include: "DOLLAR", "CREDIT", "SPARKLE", "PLINCOIN".
---- @param ending_currency "DOLLAR"|"CREDIT"|"SPARKLE"|"PLINCOIN"|"CRYPTOCURRENCY" The currency to convert to. Valid options for currencies currently include: "DOLLAR", "CREDIT", "SPARKLE", "PLINCOIN".
+--- @param starting_currency "DOLLAR"|"BUDGET"|"SPARKLE"|"PLINCOIN"|"CRYPTOCURRENCY" The currency to convert from. Valid options for currencies currently include: "DOLLAR", "BUDGET", "SPARKLE", "PLINCOIN".
+--- @param ending_currency "DOLLAR"|"BUDGET"|"SPARKLE"|"PLINCOIN"|"CRYPTOCURRENCY" The currency to convert to. Valid options for currencies currently include: "DOLLAR", "BUDGET", "SPARKLE", "PLINCOIN".
 function convert_currency(amount, starting_currency, ending_currency)
     local money                      = amount or 0
     starting_currency                = starting_currency or "PLINCOIN"
     ending_currency                  = ending_currency or "PLINCOIN"
     -- First, convert everything into plincoin, the MOST valuable of all of the currencies.
     local dollar_to_plincoin         = 3
-    local credit_to_plincoin         = 15
+    local budget_to_plincoin         = 15
     local sparkle_to_plincoin        = 12495
     local cryptocurrency_to_plincoin = 4
 
     if ending_currency == "DOLLAR" then
         money = money * dollar_to_plincoin
-    elseif ending_currency == "CREDIT" then
-        money = money * credit_to_plincoin
+    elseif ending_currency == "BUDGET" then
+        money = money * budget_to_plincoin
     elseif ending_currency == "SPARKLE" then
         money = money * sparkle_to_plincoin
     elseif ending_currency == "CRYPTOCURRENCY" then
@@ -403,14 +403,14 @@ function convert_currency(amount, starting_currency, ending_currency)
 
     -- Next, convert from plincoin into the desired currency.
     local plincoin_to_dollar         = 1 / dollar_to_plincoin
-    local plincoin_to_credit         = 1 / credit_to_plincoin
+    local plincoin_to_budget         = 1 / budget_to_plincoin
     local plincoin_to_sparkle        = 1 / sparkle_to_plincoin
     local plincoin_to_cryptocurrency = 1 / cryptocurrency_to_plincoin
 
     if starting_currency == "DOLLAR" then
         money = money * plincoin_to_dollar
-    elseif starting_currency == "CREDIT" then
-        money = money * plincoin_to_credit
+    elseif starting_currency == "BUDGET" then
+        money = money * plincoin_to_budget
     elseif starting_currency == "SPARKLE" then
         money = money * plincoin_to_sparkle
     elseif ending_currency == "CRYPTOCURRENCY" then
@@ -432,9 +432,7 @@ function add_tables(tables) -- yet again, there is probably a better way to do t
     return ful_tab
 end
 
--- probably shouldve made this a global function but whatever
-function HPTN.ease_credits(amount, instant)
-    if not G.GAME.seeded then
+function ease_credits(amount, instant)
     amount = amount or 0
     if ExtraCredit and (amount > 0) then
         amount = amount * 3
@@ -450,7 +448,58 @@ function HPTN.ease_credits(amount, instant)
         end
 
         G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameCredits + amount
-        G.GAME.credits_text = G.PROFILES[G.SETTINGS.profile].TNameCredits
+
+        if amount ~= 0 then
+            attention_text({
+                text = text .. tostring(math.abs(mod)),
+                scale = 0.8,
+                hold = 0.7,
+                cover = dollar_UI.parent,
+                cover_colour = col,
+                align = 'cm',
+            })
+            --Play a chip sound
+            if amount > 0 then
+                play_sound("hpot_tname_gaincred")
+            else
+                play_sound("hpot_tname_losecred")
+            end
+        end
+    end
+
+    if instant then
+        _mod(amount)
+    else
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            func = function()
+                _mod(amount)
+                return true
+            end
+        }))
+    end
+
+    G:save_progress()
+end
+
+-- probably shouldve made this a global function but whatever
+function HPTN.ease_budget(amount, instant)
+    amount = amount or 0
+    if ExtraCredit and (amount > 0) then
+        amount = amount * 3
+    end
+    local function _mod(mod) -- Taken from ease_plincoins()
+        local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
+        mod = mod or 0
+        local text = '+e.'
+        local col = {0.8, 0.45, 0.85, 1}
+        if mod < 0 then
+            text = '-e.'
+            col = G.C.RED
+        end
+
+        G.GAME.budget = G.GAME.budget + amount
+        G.GAME.budget_text = G.GAME.budget .. ''
 
             dollar_UI.config.object:update()
             if amount ~= 0 then
@@ -500,70 +549,11 @@ function HPTN.ease_credits(amount, instant)
     end
 
     G:save_progress()
-else
-    amount = amount or 0
-    if ExtraCredit and (amount > 0) then
-        amount = amount * 3
-    end
-    local function _mod(mod) -- Taken from ease_plincoins()
-        local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
-        mod = mod or 0
-        local text = '+e.'
-        local col = G.C.ORANGE
-        if mod < 0 then
-            text = '-e.'
-            col = G.C.RED
-        end
-
-        G.GAME.budget = G.GAME.budget + amount
-        G.GAME.credits_text = G.GAME.budget
-
-            dollar_UI.config.object:update()
-            if amount ~= 0 then
-                G.HUD:recalculate()
-                --Popup text next to the chips in UI showing number of chips gained/lost
-                attention_text({
-                    text = text .. tostring(math.abs(mod)),
-                    scale = 0.8,
-                    hold = 0.7,
-                    cover = dollar_UI.parent,
-                    cover_colour = col,
-                    align = 'cm',
-                })
-                --Play a chip sound
-                if amount > 0 then
-                    play_sound("hpot_tname_gaincred")
-                else
-                    play_sound("hpot_tname_losecred")
-                end
-            end
-
-    end
-
-    if instant then
-        _mod(amount)
-    else
-        G.E_MANAGER:add_event(Event({
-            trigger = 'immediate',
-            func = function()
-                _mod(amount)
-                return true
-            end
-        }))
-    end
-
-    G:save_progress()
-end
 end
 
-function HPTN.set_credits(amount)
-    if not G.GAME.seeded then
-    G.PROFILES[G.SETTINGS.profile].TNameCredits = amount
-    G.GAME.credits_text = G.PROFILES[G.SETTINGS.profile].TNameCredits
-    else
+function HPTN.set_budget(amount)
     G.GAME.budget = amount
-    G.GAME.credits_text = G.GAME.budget
-    end
+    G.GAME.budget_text = G.GAME.budget
 end
 
 function HPTN.check_if_enough_credits(cost)
@@ -583,10 +573,10 @@ end
 end
 
 G.FUNCS.credits_UI_set = function(e)
-    local new_chips_text = number_format(G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)
-    if G.GAME.credits_text ~= new_chips_text then
-        e.config.scale = math.min(0.8, scale_number(G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits, 1.1))
-        G.GAME.credits_text = new_chips_text
+    local new_chips_text = number_format(G.GAME.budget)
+    if G.GAME.budget_text ~= new_chips_text then
+        e.config.scale = math.min(0.8, scale_number(G.GAME.budget, 1.1))
+        G.GAME.budget_text = new_chips_text
     end
 end
 
@@ -627,13 +617,13 @@ function add_round_eval_credits(config) --taken straight from plincoin.lua (yet 
             local left_text = {}
             if config.name == 'credits' then
                 table.insert(left_text,
-                    { n = G.UIT.T, config = { text = config.credits, font = config.font, scale = 0.8 * scale, colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE, shadow = true, juice = true } })
+                    { n = G.UIT.T, config = { text = config.credits, font = config.font, scale = 0.8 * scale, colour = {0.8, 0.45, 0.85, 1}, shadow = true, juice = true } })
                 if G.GAME.modifiers.hands_to_credits then
                     table.insert(left_text,
-                        { n = G.UIT.O, config = { object = DynaText({ string = { " " .. localize { type = 'variable', key = G.GAME.seeded and 'hotpot_budget_cashout2' or 'hotpot_credits_cashout2', vars = { (G.GAME.credits_cashout or 0), (G.GAME.credits_cashout2 or 0) } } }, colours = { G.C.UI.TEXT_LIGHT }, shadow = true, pop_in = 0, scale = 0.4 * scale, silent = true }) } })
+                        { n = G.UIT.O, config = { object = DynaText({ string = { " " .. localize { type = 'variable', key = 'hotpot_budget_cashout2', vars = { (G.GAME.credits_cashout or 0), (G.GAME.credits_cashout2 or 0) } } }, colours = { G.C.UI.TEXT_LIGHT }, shadow = true, pop_in = 0, scale = 0.4 * scale, silent = true }) } })
                 else
                     table.insert(left_text,
-                        { n = G.UIT.O, config = { object = DynaText({ string = { " " .. localize { type = 'variable', key = G.GAME.seeded and 'hotpot_budget_cashout' or 'hotpot_credits_cashout', vars = { G.GAME.credits_cashout or 0 } } }, colours = { G.C.UI.TEXT_LIGHT }, shadow = true, pop_in = 0, scale = 0.4 * scale, silent = true }) } })
+                        { n = G.UIT.O, config = { object = DynaText({ string = { " " .. localize { type = 'variable', key = 'hotpot_budget_cashout', vars = { G.GAME.credits_cashout or 0 } } }, colours = { G.C.UI.TEXT_LIGHT }, shadow = true, pop_in = 0, scale = 0.4 * scale, silent = true }) } })
                 end
             elseif string.find(config.name, 'joker') then
                 table.insert(left_text,
@@ -666,7 +656,7 @@ function add_round_eval_credits(config) --taken straight from plincoin.lua (yet 
                         n = G.UIT.R,
                         config = { align = "cm", id = 'dollar_row_' .. (dollar_row + 1) .. '_' .. config.name },
                         nodes = {
-                            { n = G.UIT.O, config = { object = DynaText({ string = G.GAME.seeded and "e" or "c", colours = { G.GAME.seeded and G.C.ORANGE or G.C.PURPLE }, shadow = true, pop_in = 0, scale = 0.65, float = true }) } }
+                            { n = G.UIT.O, config = { object = DynaText({ string = "e", colours = { {0.8, 0.45, 0.85, 1} }, shadow = true, pop_in = 0, scale = 0.65, float = true }) } }
                         }
                     },
                     G.round_eval:get_UIE_by_ID('dollar_' .. config.name))
@@ -689,7 +679,7 @@ function add_round_eval_credits(config) --taken straight from plincoin.lua (yet 
                         dollar_row = dollar_row + 1
                     end
 
-                    local r = { n = G.UIT.T, config = { text = G.GAME.seeded and "e" or "c", colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE, scale = ((num_dollars > 20 and 0.28) or (num_dollars > 9 and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true } }
+                    local r = { n = G.UIT.T, config = { text = "e", colour = {0.8, 0.45, 0.85, 1}, scale = ((num_dollars > 20 and 0.28) or (num_dollars > 9 and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true } }
                     play_sound('coin3', 0.9 + 0.2 * math.random(), 0.7 - (num_dollars > 20 and 0.2 or 0))
 
                     if config.name == 'blind1' then
