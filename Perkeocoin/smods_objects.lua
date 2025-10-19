@@ -853,7 +853,7 @@ SMODS.Consumable { --Cash Exchange
     config = {
         extra = {
             dollars = 8,
-            plincoins = 2
+            credits = 15
         }
     },
     unlocked = true,
@@ -868,7 +868,7 @@ SMODS.Consumable { --Cash Exchange
         team = {'Perkeocoin'}
     },
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.dollars, card.ability.extra.plincoins}}
+        return {vars = {card.ability.extra.dollars, card.ability.extra.credits}}
     end,
 
     can_use = function(self, card)
@@ -877,27 +877,49 @@ SMODS.Consumable { --Cash Exchange
 
     use = function(self, card, area, copier)
         ease_dollars(-card.ability.extra.dollars)
-        ease_plincoins(card.ability.extra.plincoins)
+        HPTN.ease_credits(card.ability.extra.credits)
     end
 }
 
+
 local function sac_czech()
-    if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
-        local thunk = G.jokers.cards[1].config.center.rarity
+    if G.jokers and G.jokers.highlighted and #G.jokers.highlighted > 0 then
+        local thunk = G.jokers.highlighted[1].config.center.rarity
         if thunk == 1 then
-            return 2
+            thunk = 'Common'
         elseif thunk == 2 then
-            return 3
+            thunk = 'Uncommon'
         elseif thunk == 3 then
-            return 5
-        elseif thunk == 4 then
+            thunk = 'Rare'
+        else
+            thunk = 'Legendary'
+        end
+        local weight = SMODS.Rarities[thunk].default_weight or 0;
+        if weight == 0 then -- LEGENDARY
+            return 50 --2
+        elseif weight <= 0.005 then
+            return 45
+        elseif weight <= 0.01 then
+            return 40
+        elseif weight <= 0.05 then -- RARE
+            return 35
+        elseif weight <= 0.10 then 
+            return 30
+        elseif weight <= 0.20 then 
+            return 25
+        elseif weight <= 0.25 then -- UNCOMMON
+            return 20
+        elseif weight <= 0.7 then -- COMMON
+            return 15
+        elseif weight <= 0.9 then 
             return 10
         else
-            return 5
+            return 5 -- default weight must be really high for whatever reason and is probably trash
         end
     end
     return 0
 end
+
 SMODS.Consumable { --Sacrifice
     name = 'Sacrifice',
     key = 'sacrifice',
@@ -924,8 +946,8 @@ SMODS.Consumable { --Sacrifice
     end,
 
     can_use = function(self, card)
-        if #G.jokers.cards > 0 then
-            if not SMODS.is_eternal(G.jokers.cards[1], card) then
+        if #G.jokers.highlighted == 1 then
+            if not SMODS.is_eternal(G.jokers.highlighted[1], card) then
                 return true
             end
         end
@@ -933,12 +955,12 @@ SMODS.Consumable { --Sacrifice
     end,
 
     use = function(self, card, area, copier)
-        check_for_unlock({ type = "fuck_soul", conditions = sac_czech() or 0 })
-        ease_plincoins(sac_czech())
-        G.jokers.cards[1].getting_sliced = true
+        check_for_unlock({ type = "fuck_soul", conditions = G.jokers.highlighted[1].config.center.rarity })
+        HPTN.ease_credits(sac_czech())
+        G.jokers.highlighted[1].getting_sliced = true
         G.E_MANAGER:add_event(Event({func = function()
             card:juice_up(0.8, 0.8)
-            SMODS.destroy_cards({ G.jokers.cards[1] }, true)
+            SMODS.destroy_cards({ G.jokers.highlighted[1] }, true)
         return true end }))
     end
 }
@@ -1045,7 +1067,7 @@ SMODS.Consumable { --Collateral
     pos = { x = 0, y = 1 },
     config = {
         extra = {
-            plincoins = 4
+            credits = 15
         }
     },
     unlocked = true,
@@ -1060,31 +1082,24 @@ SMODS.Consumable { --Collateral
         team = {'Perkeocoin'}
     },
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.plincoins}}
+        return {vars = {card.ability.extra.credits}}
     end,
 
     can_use = function(self, card)
-        if #G.jokers.cards > 0 then
-            for k, v in ipairs(G.jokers.cards) do
-                if not v.ability.perishable and v.config.center.perishable_compat and not v.ability.eternal then
-                    return true
-                end
+        if #G.jokers.highlighted == 1 then
+            local v = G.jokers.highlighted[1]
+            if not v.ability.perishable and v.config.center.perishable_compat and not v.ability.eternal then
+                return true
             end
         end
         return false
     end,
 
     use = function(self, card, area, copier)
-        local thunk = {}
-        for k, v in ipairs(G.jokers.cards) do
-            if not v.ability.perishable and v.config.center.perishable_compat and not v.ability.eternal then
-                thunk[#thunk+1] = v
-            end
-        end
-        local then_perish = pseudorandom_element(thunk, pseudoseed('perish'))
+        local then_perish = G.jokers.highlighted[1]
         then_perish:set_perishable(true)
         then_perish:juice_up(0.5,0.5)
-        ease_plincoins(card.ability.extra.plincoins)
+        HPTN.ease_credits(card.ability.extra.credits)
     end
 }
 
@@ -1096,7 +1111,7 @@ SMODS.Consumable { --CoD Account
     pos = { x = 1, y = 1 },
     config = {
         extra = {
-            plincoins = 4
+            credits = 15
         }
     },
     unlocked = true,
@@ -1111,31 +1126,24 @@ SMODS.Consumable { --CoD Account
         team = {'Perkeocoin'}
     },
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.plincoins}}
+        return {vars = {card.ability.extra.credits}}
     end,
 
     can_use = function(self, card)
-        if #G.jokers.cards > 0 then
-            for k, v in ipairs(G.jokers.cards) do
-                if not v.ability.eternal and v.config.center.eternal_compat and not v.ability.perishable then
-                    return true
-                end
+        if #G.jokers.highlighted == 1 then
+            local v = G.jokers.highlighted[1]
+            if not v.ability.eternal and v.config.center.eternal_compat and not v.ability.perishable then
+                return true
             end
         end
         return false
     end,
 
     use = function(self, card, area, copier)
-        local thunk = {}
-        for k, v in ipairs(G.jokers.cards) do
-            if not v.ability.eternal and v.config.center.eternal_compat and not v.ability.perishable then
-                thunk[#thunk+1] = v
-            end
-        end
-        local deposit = pseudorandom_element(thunk, pseudoseed('deposit'))
+        local deposit = G.jokers.highlighted[1]
         deposit:set_eternal(true)
         deposit:juice_up(0.5,0.5)
-        ease_plincoins(card.ability.extra.plincoins)
+        HPTN.ease_credits(card.ability.extra.credits)
     end
 }
 
@@ -1147,7 +1155,7 @@ SMODS.Consumable { --Subscription
     pos = { x = 2, y = 1 },
     config = {
         extra = {
-            plincoins = 4
+            credits = 15
         }
     },
     unlocked = true,
@@ -1162,31 +1170,24 @@ SMODS.Consumable { --Subscription
         team = {'Perkeocoin'}
     },
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.plincoins}}
+        return {vars = {card.ability.extra.credits}}
     end,
 
     can_use = function(self, card)
-        if #G.jokers.cards > 0 then
-            for k, v in ipairs(G.jokers.cards) do
-                if not v.ability.rental then
-                    return true
-                end
+        if #G.jokers.highlighted == 1 then
+            local v = G.jokers.highlighted[1]
+            if not v.ability.rental then
+                return true
             end
         end
         return false
     end,
 
     use = function(self, card, area, copier)
-        local thunk = {}
-        for k, v in ipairs(G.jokers.cards) do
-            if not v.ability.rental then
-                thunk[#thunk+1] = v
-            end
-        end
-        local rent = pseudorandom_element(thunk, pseudoseed('rent'))
+        local rent = G.jokers.highlighted[1]
         rent:set_rental(true)
         rent:juice_up(0.5,0.5)
-        ease_plincoins(card.ability.extra.plincoins)
+        HPTN.ease_credits(card.ability.extra.credits)
     end
 }
 
@@ -1199,7 +1200,7 @@ SMODS.Consumable { --Handful
     config = {
         extra = {
             plincoins = 10,
-            h_size = 1
+            hands = 1
         }
     },
     unlocked = true,
@@ -1209,7 +1210,7 @@ SMODS.Consumable { --Handful
         ['Czech'] = true
     },
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.plincoins, card.ability.extra.h_size}}
+        return {vars = {card.ability.extra.plincoins, card.ability.extra.hands}}
     end,
     hotpot_credits = {
         art = {'Omegaflowey18'},
@@ -1222,7 +1223,8 @@ SMODS.Consumable { --Handful
     end,
 
     use = function(self, card, area, copier)
-        G.hand:change_size(-card.ability.extra.h_size)
+        G.GAME.round_bonus.next_hands = G.GAME.round_bonus.next_hands - card.ability.extra.hands
+        ease_hands_played(-card.ability.extra.hands)
         ease_plincoins(card.ability.extra.plincoins)
     end
 }
@@ -1289,7 +1291,7 @@ SMODS.Consumable { --Meteor
     pos = { x = 1, y = 2 },
     config = {
         extra = {
-            plincoins = 3,
+            plincoins = 5,
             levels = 1
         }
     },

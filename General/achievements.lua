@@ -109,7 +109,7 @@ SMODS.Achievement {
     hidden_name = true,
     hidden_text = false,
     unlock_condition = function(self, args)
-        return (args.type == 'fuck_soul' and args.conditions == 10)
+        return (args.type == 'fuck_soul' and ((args.conditions == 4) or (args.conditions == 'Legendary')))
     end
 }
 

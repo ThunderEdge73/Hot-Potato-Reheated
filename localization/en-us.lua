@@ -4,8 +4,10 @@ return {
             c_hpot_justice = {
                 name = "Aura of Justice",
                 text = {
-                    "{C:red}-#1# Joker Slots{},",
-                    "{C:purple}+c.#2#"
+                    "{C:red}Create a random",
+                    "{C:red}Eternal Joker{},",
+                    "{C:purple}+c.#1#",
+                    "{C:inactive}Must have room",
                 }
             },
             c_hpot_fear = {
@@ -40,7 +42,8 @@ return {
             c_hpot_tenacity = {
                 name = "Aura of Tenacity",
                 text = {
-                    "{C:red}Destroy all Jokers{},",
+                    "{C:red}Apply Overclock",
+                    "{C:red}to all Jokers{},",
                     "{X:purple,C:white}Xc.#2#{C:inactive} (Max of #1#)"
                 }
             },
@@ -53,8 +56,10 @@ return {
             c_hpot_justice_budget = {
                 name = "Aura of Justice",
                 text = {
-                    "{C:red}-#1# Joker Slots{},",
-                    "{C:attention}+e.#2#"
+                    "{C:red}Create a random",
+                    "{C:red}Eternal Joker{},",
+                    "{C:attention}+e.#1#",
+                    "{C:inactive}Must have room",
                 }
             },
             c_hpot_fear_budget = {
@@ -89,7 +94,8 @@ return {
             c_hpot_tenacity_budget = {
                 name = "Aura of Tenacity",
                 text = {
-                    "{C:red}Destroy all Jokers{},",
+                    "{C:red}Apply Overclock",
+                    "{C:red}to all Jokers{},",
                     "{X:attention,C:white}Xe.#2#{C:inactive} (Max of #1#)"
                 }
             },
@@ -720,7 +726,7 @@ return {
                 ['name'] = 'Cash Exchange',
                 ['text'] = {
                     [1] = "Lose {C:money}$#1#{},",
-                    [2] = "gain {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#2#{}"
+                    [2] = 'gain {C:purple}+c.#2#{}'
                 }
             },
             c_hpot_charity = {
@@ -733,10 +739,10 @@ return {
             c_hpot_sacrifice = {
                 ['name'] = 'Sacrifice',
                 ['text'] = {
-                    [1] = "Destroy leftmost {C:attention}Joker{},",
-                    [2] = 'Gain {C:hpot_plincoin}Plincoins{} based on',
+                    [1] = "Destroy {C:attention}1{} selected {C:attention}Joker{},",
+                    [2] = 'Gain {C:purple}Credits{} based on',
                     [3] = 'that Joker\'s {C:attention}rarity',
-                    [4] = '{C:inactive}(Currently {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#1#{C:inactive})'
+                    [4] = '{C:inactive}(Currently {C:purple}c.#1#{C:inactive})'
                 }
             },
             c_hpot_wheel_of_plinko = {
@@ -750,32 +756,32 @@ return {
             c_hpot_collateral = {
                 ['name'] = 'Collateral',
                 ['text'] = {
-                    [1] = "A random {C:attention}Joker",
+                    [1] = "{C:attention}1{} selected {C:attention}Joker",
                     [2] = 'becomes {C:attention}Perishable{},',
-                    [3] = 'gain {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#1#{}'
+                    [3] = 'gain {C:purple}+c.#1#{}'
                 }
             },
             c_hpot_cod_account = {
                 ['name'] = 'CoD Account',
                 ['text'] = {
-                    [1] = "A random {C:attention}Joker",
+                    [1] = "{C:attention}1{} selected {C:attention}Joker",
                     [2] = 'becomes {C:attention}Eternal{},',
-                    [3] = 'gain {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#1#{}'
+                    [3] = 'gain {C:purple}+c.#1#{}'
                 }
             },
             c_hpot_subscription = {
                 ['name'] = 'Subscription',
                 ['text'] = {
-                    [1] = "A random {C:attention}Joker",
+                    [1] = "{C:attention}1{} selected {C:attention}Joker",
                     [2] = 'becomes {C:attention}Rental{},',
-                    [3] = 'gain {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#1#{}'
+                    [3] = 'gain {C:purple}+c.#1#{}'
                 }
             },
             c_hpot_handful = {
                 ['name'] = 'Handful',
                 ['text'] = {
                     [1] = "Gain {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#1#{},",
-                    [2] = '{C:red}-#2#{} hand size'
+                    [2] = "{C:red}-#2#{} Hand for one round"
                 }
             },
             c_hpot_czech_republic = {

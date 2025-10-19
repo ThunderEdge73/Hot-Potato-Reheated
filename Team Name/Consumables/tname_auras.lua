@@ -24,7 +24,6 @@ SMODS.Consumable({
 	},
 	config = {
 		extra = {
-			slots = 1,
 			credits = 70
 		},
 	},
@@ -34,26 +33,30 @@ SMODS.Consumable({
 		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.slots, hpt.credits },
+			vars = { hpt.credits },
 			key = key
 		}
 	end,
 	can_use = function(self, card)
-		return true
+		return G.jokers and #G.jokers.cards < G.jokers.config.card_limit
 	end,
 	use = function(self, card, area, copier)
 		local hpt = card.ability.extra
 		G.E_MANAGER:add_event(Event({
-			func = function()
-				if G.jokers then
-					G.jokers.config.card_limit = G.jokers.config.card_limit - hpt.slots
-				end
-				return true
-			end,
-		}))
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('timpani')
+                local added = SMODS.add_card({ set = 'Joker' })
+				added:set_eternal(true);
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        delay(0.6)
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				HPTN.ease_credits(60, false)
+				HPTN.ease_credits(hpt.credits, false)
 				return true
 			end,
 		}))
@@ -287,7 +290,7 @@ SMODS.Consumable({
 	},
 	config = {
 		extra = {
-			max = 200,
+			max = 250,
 			credits = 2
 		},
 	},
@@ -304,8 +307,10 @@ SMODS.Consumable({
 	can_use = function(self, card)
 		return #G.jokers.cards > 0
 	end,
-	use = function(self, card, area, copier)    
-        SMODS.destroy_cards(G.jokers.cards)
+	use = function(self, card, area, copier) 
+		for i = 1, #G.jokers.cards do
+			SMODS.Stickers.hpot_overclock:apply(G.jokers.cards[i], true)   
+        end
 		local hpt = card.ability.extra
 		local retval = math.min(hpt.max, (hpt.credits - 1) * (G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits))
 		HPTN.ease_credits(retval, false)
