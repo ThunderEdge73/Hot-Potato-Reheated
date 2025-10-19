@@ -6224,6 +6224,7 @@ return {
         },
         v_dictionary = {
             k_hpot_creditable = "Creditable",
+            hpot_creinterest="#1# Credits per #2# Budget:",
 
             hotpot_plincoins_cashout = 'Plincoins (#1# per round)',
             hotpot_cryptocurrency_cashout = 'Cryptocurrency',

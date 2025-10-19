@@ -485,9 +485,6 @@ end
 -- probably shouldve made this a global function but whatever
 function HPTN.ease_budget(amount, instant)
     amount = amount or 0
-    if ExtraCredit and (amount > 0) then
-        amount = amount * 3
-    end
     local function _mod(mod) -- Taken from ease_plincoins()
         local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
         mod = mod or 0
