@@ -38,7 +38,7 @@ G.dynamic_train_messages = {
     failure_rate_guts = "0%",
     failure_rate_wits = "0%",
 
-    spark_per_turn = 45000,
+    spark_per_turn = 7500,
 }
 G.training_boost = {
     level_1 = {
@@ -66,94 +66,102 @@ G.training_boost = {
     },
     level_2 = {
         speed = {
-            speed = 11,
-            power = 5
+            speed = 10,
+            power = 6
         },
         stamina = {
-            stamina = 10,
-            guts = 4
+            stamina = 9,
+            guts = 5
         },
         power = {
-            power = 9,
-            stamina = 7,
+            power = 8,
+            stamina = 6,
         },
         guts = {
-            guts = 9,
-            speed = 4,
+            guts = 8,
+            speed = 5,
             power = 4,
         },
         wits = {
-            wits = 10,
-            speed = 2
+            wits = 9,
+            speed = 3
         },
     },
     level_3 = {
         speed = {
-            speed = 12,
-            power = 5
-        },
-        stamina = {
-            stamina = 11,
-            guts = 4
-        },
-        power = {
-            power = 10,
-            stamina = 5,
-        },
-        guts = {
-            guts = 10,
-            speed = 4,
-            power = 4,
-        },
-        wits = {
-            wits = 11,
-            speed = 2
-        },
-    },
-    level_4 = {
-        speed = {
-            speed = 13,
+            speed = 11,
             power = 6
         },
         stamina = {
-            stamina = 12,
+            stamina = 10,
             guts = 5
         },
         power = {
-            power = 11,
-            stamina = 5,
+            power = 9,
+            stamina = 6,
         },
         guts = {
-            guts = 11,
-            speed = 5,
-            power = 4,
-        },
-        wits = {
-            wits = 12,
-            speed = 3
-        },
-    },
-    level_5 = {
-        speed = {
-            speed = 14,
-            power = 7
-        },
-        stamina = {
-            stamina = 13,
-            guts = 6
-        },
-        power = {
-            power = 12,
-            stamina = 5,
-        },
-        guts = {
-            guts = 12,
+            guts = 9,
             speed = 5,
             power = 5,
         },
         wits = {
-            wits = 13,
-            speed = 4
+            wits = 10,
+            speed = 3
+        },
+    },
+    level_4 = {
+        speed = {
+            speed = 11,
+            power = 6,
+            guts = 1
+        },
+        stamina = {
+            stamina = 11,
+            guts = 5,
+            speed = 1
+        },
+        power = {
+            power = 10,
+            stamina = 6,
+            guts = 1
+        },
+        guts = {
+            guts = 10,
+            speed = 5,
+            power = 5,
+        },
+        wits = {
+            wits = 10,
+            speed = 3,
+            power = 1
+        },
+    },
+    level_5 = {
+        speed = {
+            speed = 12,
+            power = 6,
+            guts = 2
+        },
+        stamina = {
+            stamina = 12,
+            guts = 6,
+            speed = 2
+        },
+        power = {
+            power = 11,
+            stamina = 6,
+            guts = 2
+        },
+        guts = {
+            guts = 11,
+            speed = 6,
+            power = 5,
+        },
+        wits = {
+            wits = 11,
+            speed = 4,
+            power = 2
         },
     },
 }
@@ -222,7 +230,7 @@ function Game:update(...)
     local stats = {"speed", "stamina", "power", "guts", "wits"}
     local joker_stats = G.train_jokers and G.train_jokers.cards and next(G.train_jokers.cards) and G.train_jokers.cards[1].ability.hp_jtem_stats
     if G.GAME then
-        G.dynamic_train_messages.spark_per_turn = G.GAME.spark_per_turn or 45000
+        G.dynamic_train_messages.spark_per_turn = G.GAME.spark_per_turn or 7500
         if G.GAME.hovered_train and joker_stats then
             local dummy_cost = calc_energy_cost(joker_stats, G.GAME.training_cost[G.GAME.hovered_train])
             if dummy_cost < 0 then
@@ -330,7 +338,7 @@ function Game:start_run(args)
         guts = 22,
         wits = -5
     }
-    G.GAME.spark_per_turn = G.GAME.spark_per_turn or 45000
+    G.GAME.spark_per_turn = G.GAME.spark_per_turn or 7500
     
     for _,train in ipairs(HP_JTEM_STATS) do
         G.C.training_colors[train] = copy_table(G.C.level_colors["level_"..G.GAME.training_level[train]])
