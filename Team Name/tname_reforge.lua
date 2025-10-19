@@ -144,7 +144,7 @@ function G.FUNCS.can_reforge(e)
 end
 
 function G.FUNCS.can_reforge_with_budget(e)
-    if not HPTN.check_if_enough_credits(G.GAME.cost_credits) or not G.GAME.ref_placed then
+    if not HPTN.check_if_enough_budget(G.GAME.cost_credits) or not G.GAME.ref_placed then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
             e.config.button = nil
         else

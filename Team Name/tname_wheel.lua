@@ -421,7 +421,7 @@ function remove_wheel_rewards()
 end
 
 G.FUNCS.can_wheel_spin = function(e)
-  if Wheel.STATE.IDLE and HPTN.check_if_enough_credits(Wheel.Price) then
+  if Wheel.STATE.IDLE and HPTN.check_if_enough_budget(Wheel.Price) then
     e.config.colour = {0.8, 0.45, 0.85, 1}
     for _, child in ipairs(e.children[1].children) do
         child.children[1].config.object.colours = {G.C.UI.TEXT_LIGHT}

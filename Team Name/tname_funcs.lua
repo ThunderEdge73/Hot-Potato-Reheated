@@ -556,20 +556,12 @@ function HPTN.set_budget(amount)
     G.GAME.budget_text = G.GAME.budget
 end
 
-function HPTN.check_if_enough_credits(cost)
-    if not G.GAME.seeded then
-    local credits = G.PROFILES[G.SETTINGS.profile].TNameCredits
-    if (credits - cost) >= 0 then
-        return true
-    end
-    return false
-else
+function HPTN.check_if_enough_budget(cost)
     local credits = G.GAME.budget
     if (credits - cost) >= 0 then
         return true
     end
     return false
-end
 end
 
 G.FUNCS.credits_UI_set = function(e)

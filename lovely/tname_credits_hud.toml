@@ -178,20 +178,6 @@ payload = '''
 '''
 match_indent = true
 
-[[patches]]
-[patches.pattern]
-target = 'game.lua'
-pattern = '''
-function Game:update(dt)
-'''
-position = "after"
-payload = '''
-    if G and G.GAME and G.GAME.seeded then
-        HotPotato.effect_options[3] ="hpot_diy_earn_budget"
-    end
-'''
-match_indent = true
-
 # i love copying code :smile:
 [[patches]]
 [patches.pattern]
