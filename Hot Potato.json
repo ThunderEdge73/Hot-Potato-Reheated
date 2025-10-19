@@ -1,12 +1,12 @@
 {
-	"id": "HotPotato",
-	"name": "Hot Potato",
-	"display_name": "Hot Potato",
+	"id": "HotPotatoReheated",
+	"name": "Hot Potato: Reheated",
+	"display_name": "Hot Potato: Reheated",
 	"author": ["Various Developers"],
 	"description": "Mod Developer Chaos",
 	"prefix": "hpot",
 	"main_file": "main.lua",
-	"priority": -100000000,
+	"priority": -100000001,
 	"badge_colour": "#f5e27a",
 	"badge_text_colour": "#ffffff",
 	"version": "1.0.1",
@@ -17,6 +17,7 @@
         "Talisman",
 		"Multiplayer",
 		"VirtualizedMultiplayer",
-        "SlayTheJokers"
+        "SlayTheJokers",
+        "HotPotato"
     ]
 }

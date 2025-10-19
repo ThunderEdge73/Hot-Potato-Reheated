@@ -38,7 +38,7 @@ G.dynamic_train_messages = {
     failure_rate_guts = "0%",
     failure_rate_wits = "0%",
 
-    spark_per_turn = 45000,
+    spark_per_turn = 7500,
 }
 G.training_boost = {
     level_1 = {
@@ -222,7 +222,7 @@ function Game:update(...)
     local stats = {"speed", "stamina", "power", "guts", "wits"}
     local joker_stats = G.train_jokers and G.train_jokers.cards and next(G.train_jokers.cards) and G.train_jokers.cards[1].ability.hp_jtem_stats
     if G.GAME then
-        G.dynamic_train_messages.spark_per_turn = G.GAME.spark_per_turn or 45000
+        G.dynamic_train_messages.spark_per_turn = G.GAME.spark_per_turn or 7500
         if G.GAME.hovered_train and joker_stats then
             local dummy_cost = calc_energy_cost(joker_stats, G.GAME.training_cost[G.GAME.hovered_train])
             if dummy_cost < 0 then
@@ -330,7 +330,7 @@ function Game:start_run(args)
         guts = 22,
         wits = -5
     }
-    G.GAME.spark_per_turn = G.GAME.spark_per_turn or 45000
+    G.GAME.spark_per_turn = G.GAME.spark_per_turn or 7500
     
     for _,train in ipairs(HP_JTEM_STATS) do
         G.C.training_colors[train] = copy_table(G.C.level_colors["level_"..G.GAME.training_level[train]])

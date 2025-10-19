@@ -675,7 +675,7 @@ SMODS.Sticker {
 ---@param card Card|table
 ---@return number
 function hpot_get_training_cost(card)
-	return 20000 * (G.GAME.hpot_training_cost_mult or 1)
+	return 5000 * (G.GAME.hpot_training_cost_mult or 1)
 end
 
 G.FUNCS.hpot_can_train_joker = function(e)
