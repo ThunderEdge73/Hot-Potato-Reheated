@@ -3,8 +3,8 @@
 </p>
 
 
-# Developer Chaos - Revised
-Hot Potato Reheated is a revision of the results of the original Hot Potato event. The goal of this revision is to polish some of the flawed ideas present in this mod due to the time constraints of the event. In addition, this revision seeks to add interactions between the disjoint mechanics of this mod, which were disjoint because of the rules of the event preventing communication between teams.
+# Developer Chaos - Reheated
+Hot Potato: Reheated is a revision of the results of the original Hot Potato event. The goal of this revision is to polish some of the flawed ideas present in this mod due to the time constraints of the event. In addition, this revision seeks to add interactions between the disjoint mechanics of this mod, which were disjoint because of the rules of the event preventing communication between teams.
 
 From the original repo:
 > "Hot Potato is a Balatro Mod Developer Event where teams were created and given a week on their own to contribute to a mod. Cross-team communication was not allowed outside of major bugfixing efforts. The ordeal took 2 months, and this mod is the culmination of this work."
