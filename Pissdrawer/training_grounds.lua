@@ -211,8 +211,8 @@ function Card:mod_training_stat(stat, num)
             -- Guts
             hpot_jtem_with_deck_effects(self, function(c)
                 if stats.guts > 150 then
-                    hpot_jtem_misprintize({ val = c.ability, amt = 1/(1+((((math.max(150,old_stats.guts)-150)/200)*100)/100)) })
-                    hpot_jtem_misprintize({ val = c.ability, amt = 1+((((stats.guts-150)/200)*100)/100) })
+                    hpot_jtem_misprintize({ val = c.ability, amt = 1/(1+((math.max(150,old_stats.guts)-150)/200)) })
+                    hpot_jtem_misprintize({ val = c.ability, amt = 1+(((stats.guts-150)/200)) })
                 end
             end)
             self:set_cost()

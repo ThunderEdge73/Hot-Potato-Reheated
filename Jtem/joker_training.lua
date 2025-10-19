@@ -468,7 +468,7 @@ SMODS.Sticker {
 		local stats = card.ability["hp_jtem_stats"]
 		hpot_jtem_with_deck_effects(card, function(c)
 			if stats.guts > 150 then
-				hpot_jtem_misprintize({ val = c.ability, amt = 1 + ((((stats.guts - 150) / 200) * 100) / 100) })
+				hpot_jtem_misprintize({ val = c.ability, amt = 1 + ((stats.guts - 150) / 200) })
 			end
 		end)
         card:set_cost()
@@ -504,8 +504,8 @@ SMODS.Sticker {
 		if context.joker_main then
 			-- TODO: Probably nerf this????
 			return {
-				xmult = 1 + ((stats.power / 800) * 100) / 100,
-				xchips = 1 + ((stats.power / 800) * 100) / 100
+				xmult = 1 + stats.power / 800,
+				xchips = 1 + stats.power / 800
 			}
 		end
 		if context.end_of_round and context.main_eval then
