@@ -244,7 +244,6 @@ pattern = "self.GAME.selected_back:apply_to_run()"
 position = "before"
 payload = """
 if args.seed then self.GAME.seeded = true end
-if self.GAME.seeded then self.GAME.budget = args.budget or 25 end
 self.GAME.cryptocurrency = self.GAME.cryptocurrency or 0.5
 self.GAME.pseudorandom[\"seed\"] = args[\"seed\"] or (not (G.SETTINGS.tutorial_complete or G.SETTINGS.tutorial_progress.completed_parts['big_blind']) and \"TUTORIAL\") or generate_starting_seed()"""
 match_indent = true

@@ -154,30 +154,6 @@ payload = '''
 '''
 match_indent = true
 
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-pattern = '''
-    local _seed = G.run_setup_seed and G.setup_seed or G.forced_seed or nil
-'''
-position = "after"
-payload = '''
-    local _budget = tonumber(G.setup_budget) or 25
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-pattern = '''
-    G.FUNCS.start_run(e, {stake = _stake, seed = _seed, challenge = _challenge})
-'''
-position = "at"
-payload = '''
-    G.FUNCS.start_run(e, {stake = _stake, seed = _seed, challenge = _challenge, budget = _budget})
-'''
-match_indent = true
-
 # i love copying code :smile:
 [[patches]]
 [patches.pattern]
