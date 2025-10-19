@@ -126,9 +126,9 @@ end
 
 local ref = G.FUNCS.can_buy -- credits buyable thingy hook
 function G.FUNCS.can_buy(e)
-    if e.config.ref_table.config.center.credits and not e.config.ref_table.hpot_transaction_price then
-        if (not HPTN.check_if_enough_budget(e.config.ref_table.config.center.credits)) and
-            e.config.ref_table.config.center.credits then
+    if e.config.ref_table.config.center.budget and not e.config.ref_table.hpot_transaction_price then
+        if (not HPTN.check_if_enough_budget(e.config.ref_table.config.center.budget)) and
+            e.config.ref_table.config.center.budget then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
             e.config.button = nil
         else

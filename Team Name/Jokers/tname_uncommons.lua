@@ -117,7 +117,7 @@ SMODS.Joker({
 	rarity = 2,
     blueprint_compat = false,
 	cost = 0,
-	credits = 5,
+	budget = 5,
 	config = {
 		extra = {
 			dollars = 2

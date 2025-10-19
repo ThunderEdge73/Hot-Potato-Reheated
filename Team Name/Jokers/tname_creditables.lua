@@ -1,7 +1,7 @@
 -- these arent really balanced so feel free to rebalance them :)
 SMODS.Joker:take_ownership("j_joker", {
 	atlas = "teamname_shitfuck",
-	credits = 120,
+	budget = 120,
 	rarity = "hpot_creditable",
     blueprint_compat = true,
 	cost = 0,
@@ -59,7 +59,7 @@ SMODS.Joker({
 		y = 1,
 	},
 	cost = 0,
-	credits = 600,
+	budget = 600,
 	config = {
 		extra = {
 			slots = 3,
@@ -108,7 +108,7 @@ SMODS.Joker({
 		y = 1,
 	},
 	cost = 0,
-	credits = 600,
+	budget = 600,
 	config = {
 		extra = {
 			slots = 2,
@@ -180,7 +180,7 @@ SMODS.Joker({
 		}))
 	end,
 	cost = 0,
-	credits = 600,
+	budget = 600,
 	hotpot_credits = {
 		art = { "GoldenLeaf" },
 		idea = { "GoldenLeaf" },
@@ -201,7 +201,7 @@ SMODS.Joker({
 		CreditablePool = true,
 	},
 	cost = 0,
-	credits = 600,
+	budget = 600,
 	calculate = function(self, card, context)
 		local ret = SMODS.blueprint_effect(card, G.jokers.cards[1], context)
 		local ret2 = SMODS.blueprint_effect(card, G.jokers.cards[#G.jokers.cards], context)
@@ -240,7 +240,7 @@ SMODS.Joker({
 		y = 2,
 	},
 	cost = 0,
-	credits = 600,
+	budget = 600,
 	config = {
 		extra = {
 			xmult = 7,
@@ -279,7 +279,7 @@ SMODS.Joker({
 	pools = {
 		CreditablePool = true,
 	},
-	credits = 5000,
+	budget = 5000,
 	calculate = function(self, card, context)
 		if
 			G.GAME.blind.config.blind
@@ -333,7 +333,7 @@ SMODS.Joker({
 	},
 	rarity = "hpot_creditable",
 	cost = 0,
-	credits = 0,
+	budget = 0,
 	no_collection = true,
 	in_pool = function(self, args)
 		return false

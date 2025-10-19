@@ -111,7 +111,7 @@ SMODS.Joker {
 	pos = { x = 0, y = 0 },
 	rarity = 3,
 	cost = 0,
-	credits = 300,
+	budget = 300,
 	config = {
 		extra = {
 			functions = { -- values for your stuff, like card.ability.extra[whatever]

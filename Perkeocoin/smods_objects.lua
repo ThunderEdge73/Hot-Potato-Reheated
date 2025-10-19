@@ -1576,7 +1576,7 @@ SMODS.Booster {
     config = { choose = 3, extra = 7 },
     discovered = true,
     cost = 0,
-    credits = 100,
+    budget = 100,
     weight = 0.4,
     kind = 'hpot_czech',
     group_key = 'k_hpot_czech_pack',
