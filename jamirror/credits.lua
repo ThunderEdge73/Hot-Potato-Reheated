@@ -1,4 +1,4 @@
-function ease_credits(amount, instant) -- DONT USE THIS OUTSIDE OF A RUN
+function ease_credits(amount, instant)
     amount = amount or 0
     if ExtraCredit and (amount > 0) then
         amount = amount * 3
