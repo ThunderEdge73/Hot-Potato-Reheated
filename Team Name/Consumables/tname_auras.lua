@@ -326,7 +326,7 @@ SMODS.Consumable({
 		HPTN.ease_budget(hpt.credits, false)
 	end,
 })
-		local calc_amount_increased = function(amount, initial, scaling)
+		local calc_amount_increased = function(amount, initial, scaling, maximum)
 			if amount < initial then
 				return 0
 			end
@@ -335,6 +335,9 @@ SMODS.Consumable({
 				alpha = alpha + initial + scaling * i
 				if alpha > amount then
 					return i
+				end
+				if i > maximum then
+					return maximum
 				end
 			end
 			return 1
@@ -351,15 +354,22 @@ SMODS.Consumable({
 	soul_pos = { x = 4, y = 1 },
 	config = {
 		extra = {
-			credits = 3
+			credits = 150,
+			increment = 30,
+			maximum = 7
 		},
 	},
 	loc_vars = function(self, info_queue, card)
 		local hpt = card.ability.extra
 		return {
 			vars = {
-				hpt.credits
-			}
+				hpt.credits,
+				math.max(0, calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), hpt.credits, hpt.increment, hpt.maximum)),
+				((math.floor((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits) / hpt.credits) < 0) and "") or "+",
+				hpt.increment,
+				hpt.maximum,
+			},
+			key = key
 		}
 	end,
 	hotpot_credits = {
@@ -368,13 +378,31 @@ SMODS.Consumable({
 		code = { "GoldenLeaf" },
 		team = { "Team Name" },
 	},
+	in_pool = function (self, args)
+		if G.jokers then
+			if #G.jokers.cards > 0 and calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), self.config.extra.credits, self.config.extra.increment, self.config.extra.maximum) > 0 then
+				return true
+			end
+		end
+		return false
+	end,
 	can_use = function(self, card)
-		return true
+		local hpt = card.ability.extra
+		return ((#G.jokers.cards > 0) and (calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), hpt.credits, hpt.increment, hpt.maximum) > 0))
+            and G.jokers.cards[1] and G.jokers.cards[1].config and G.jokers.cards[1].config.center_key ~= "j_hpot_child"
 	end,
 	use = function(self, card, area, copier)
 		local hpt = card.ability.extra
-		local credits = G.PROFILES[G.SETTINGS.profile].TNameCredits;
-		local retval = (hpt.credits - 1) * credits
-		ease_credits(retval, false)
+		local a = math.max(0, calc_amount_increased(tonumber((G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits)), hpt.credits, hpt.increment, hpt.maximum))
+		HPTN.ease_credits(-(G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits), false)
+		local target_card_key = G.jokers.cards[1].config.center_key
+		if target_card_key ~= nil and target_card_key ~= "j_hpot_child" then
+			for i = 1, a do
+				SMODS.add_card {
+					key = target_card_key,
+					edition = "e_negative"
+				}
+			end
+		end
 	end,
 })
