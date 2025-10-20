@@ -1,4 +1,4 @@
-function ease_credits(amount, instant)
+function ease_credits(amount, instant) -- DONT USE THIS OUTSIDE OF A RUN (maybe i should have just embedded this into aura of powers use function but oh well)
     amount = amount or 0
     if ExtraCredit and (amount > 0) then
         amount = amount * 3
