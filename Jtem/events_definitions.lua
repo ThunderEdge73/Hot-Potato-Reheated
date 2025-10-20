@@ -1114,17 +1114,17 @@ HotPotato.EventStep({
 	get_choices = function(self, event)
 		return {
 			{
-				key = G.GAME.seeded and "hpot_exchange_budget_to_dollars" or "hpot_exchange_credits_to_dollars",
+				key = "hpot_exchange_budget_to_dollars",
 				no_prefix = true,
-				loc_vars = { convert_currency(G.GAME.credits_text, "CREDIT", "DOLLAR") },
+				loc_vars = { convert_currency(G.GAME.budget_text, "BUDGET", "DOLLAR") },
 				button = function()
-					HPTN.ease_credits(-G.GAME.credits_text)
-					ease_dollars(convert_currency(G.GAME.credits_text, "CREDIT", "DOLLAR"))
-					event.ability = convert_currency(G.GAME.credits_text, "CREDIT", "DOLLAR")
+					HPTN.ease_budget(-G.GAME.budget_text)
+					ease_dollars(convert_currency(G.GAME.budget_text, "BUDGET", "DOLLAR"))
+					event.ability = convert_currency(G.GAME.budget_text, "BUDGET", "DOLLAR")
 					event.start_step("hpot_currency_exchange_success")
 				end,
 				func = function()
-					return to_big(convert_currency(G.GAME.credits_text, "CREDIT", "DOLLAR")) > to_big(0)
+					return to_big(convert_currency(G.GAME.budget_text, "BUDGET", "DOLLAR")) > to_big(0)
 				end,
 			},
 			{
@@ -1769,12 +1769,6 @@ HotPotato.EventScenario {
 }
 HotPotato.EventStep {
 	key = "mb_1",
-	loc_vars = function(self, event)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
-		return { key = key }
-	end,
 	get_choices = function(self, event)
 		return {
 			{
@@ -1785,14 +1779,14 @@ HotPotato.EventStep {
 				end,
 			},
 			{
-				key = "hpot_mystery_box" .. (G.GAME.seeded and "_budget" or ""),
+				key = "hpot_mystery_box",
 				no_prefix = true,
 				button = function()
-					HPTN.ease_credits(-5)
+					HPTN.ease_budget(-5)
 					event.start_step("hpot_mb_2")
 				end,
 				func = function()
-					return G.GAME.credits_text > 5
+					return G.GAME.budget_text > 5
 				end,
 			},
 		}
@@ -1836,12 +1830,6 @@ HotPotato.EventStep {
 }
 HotPotato.EventStep {
 	key = "mb_3",
-	loc_vars = function(self, event)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
-		return { key = key }
-	end,
 	get_choices = function(self, event)
 		return {
 			{
@@ -2594,7 +2582,7 @@ HotPotato.EventStep {
 	end,
 	start = function(self, event)
 		ease_dollars(-G.GAME.dollars)
-		HPTN.ease_credits(G.GAME.seeded and G.GAME.budget or -G.PROFILES[G.SETTINGS.profile].TNameCredits)
+		HPTN.ease_budget(G.GAME.budget)
 		ease_spark_points(-G.GAME.spark_points)
 		ease_plincoins(-G.GAME.plincoins)
 		ease_cryptocurrency(-G.GAME.cryptocurrency)
@@ -2681,7 +2669,7 @@ HotPotato.EventScenario {
 		team = { "Pissdrawer" },
 	},
 	in_pool = function(self)
-		return tonumber(G.GAME.credits_text) >= 100 and not G.GAME.hpot_event_triboulet_invested and
+		return tonumber(G.GAME.budget_text) >= 100 and not G.GAME.hpot_event_triboulet_invested and
 			not G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested
 	end
 }
@@ -2696,9 +2684,9 @@ HotPotato.EventStep {
 			"\"Hey, would you like to invest in my business idea?\"",
 		},
 		choices = {
-			invest_100 = "Invest {C:purple}c.100",
-			invest_500 = "Invest {C:purple}c.500",
-			invest_1000 = "Invest {C:purple}c.1000",
+			invest_100 = "Invest {C:hpot_budget}e.100",
+			invest_500 = "Invest {C:hpot_budget}e.500",
+			invest_1000 = "Invest {C:hpot_budget}e.1000",
 		}
 	},
 	get_choices = function(self, event)
@@ -2708,11 +2696,11 @@ HotPotato.EventStep {
 				button = function()
 					G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested = 100
 					G.GAME.hpot_event_triboulet_invested = true
-					HPTN.ease_credits(-100)
+					HPTN.ease_budget(-100)
 					event.start_step("hpot_business_venture_1_finish")
 				end,
 				func = function()
-					return tonumber(G.GAME.credits_text) >= 100
+					return tonumber(G.GAME.budget_text) >= 100
 				end
 			},
 			{
@@ -2720,11 +2708,11 @@ HotPotato.EventStep {
 				button = function()
 					G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested = 500
 					G.GAME.hpot_event_triboulet_invested = true
-					HPTN.ease_credits(-500)
+					HPTN.ease_budget(-500)
 					event.start_step("hpot_business_venture_1_finish")
 				end,
 				func = function()
-					return tonumber(G.GAME.credits_text) >= 500
+					return tonumber(G.GAME.budget_text) >= 500
 				end
 			},
 			{
@@ -2732,11 +2720,11 @@ HotPotato.EventStep {
 				button = function()
 					G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested = 1000
 					G.GAME.hpot_event_triboulet_invested = true
-					HPTN.ease_credits(-1000)
+					HPTN.ease_budget(-1000)
 					event.start_step("hpot_business_venture_1_finish")
 				end,
 				func = function()
-					return tonumber(G.GAME.credits_text) >= 1000
+					return tonumber(G.GAME.budget_text) >= 1000
 				end
 			},
 			moveon()
@@ -2830,7 +2818,7 @@ HotPotato.EventStep {
 		}))
 	end,
 	finish = function(self, event)
-		HPTN.ease_credits((G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested or 0) * 2)
+		HPTN.ease_budget((G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested or 0) * 2)
 		G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested = nil
 		G.GAME.hpot_event_triboulet_invested = true
 	end
@@ -2851,7 +2839,7 @@ HotPotato.EventScenario {
 		team = { "Pissdrawer" },
 	},
 	in_pool = function(self)
-		return tonumber(G.GAME.credits_text) <= -100 and not G.GAME.hpot_event_triboulet_invested and
+		return tonumber(G.GAME.budget_text) <= -100 and not G.GAME.hpot_event_triboulet_invested and
 			not G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested
 	end
 }
@@ -2885,8 +2873,8 @@ HotPotato.EventStep {
 				key = "dollars",
 				button = function()
 					G.GAME.hpot_event_triboulet_invested = true
-					ease_dollars(tonumber(G.GAME.credits_text))
-					HPTN.ease_credits(-tonumber(G.GAME.credits_text))
+					ease_dollars(tonumber(G.GAME.budget_text))
+					HPTN.ease_budget(-tonumber(G.GAME.budget_text))
 					event.start_step("hpot_business_venture_3_finish")
 				end,
 			},
@@ -2894,8 +2882,8 @@ HotPotato.EventStep {
 				key = "plincoins",
 				button = function()
 					G.GAME.hpot_event_triboulet_invested = true
-					ease_plincoins(tonumber(G.GAME.credits_text))
-					HPTN.ease_credits(-tonumber(G.GAME.credits_text))
+					ease_plincoins(tonumber(G.GAME.budget_text))
+					HPTN.ease_budget(-tonumber(G.GAME.budget_text))
 					event.start_step("hpot_business_venture_3_finish")
 				end,
 			},
@@ -2903,8 +2891,8 @@ HotPotato.EventStep {
 				key = "crypto",
 				button = function()
 					G.GAME.hpot_event_triboulet_invested = true
-					ease_cryptocurrency(tonumber(G.GAME.credits_text))
-					HPTN.ease_credits(-tonumber(G.GAME.credits_text))
+					ease_cryptocurrency(tonumber(G.GAME.budget_text))
+					HPTN.ease_budget(-tonumber(G.GAME.budget_text))
 					event.start_step("hpot_business_venture_3_finish")
 				end,
 			},
@@ -2912,8 +2900,8 @@ HotPotato.EventStep {
 				key = "spark",
 				button = function()
 					G.GAME.hpot_event_triboulet_invested = true
-					ease_spark_points(tonumber(G.GAME.credits_text))
-					HPTN.ease_credits(-tonumber(G.GAME.credits_text))
+					ease_spark_points(tonumber(G.GAME.budget_text))
+					HPTN.ease_budget(-tonumber(G.GAME.budget_text))
 					event.start_step("hpot_business_venture_3_finish")
 				end,
 			},
@@ -3165,7 +3153,7 @@ HotPotato.EventStep {
 	hide_hand = true,
 	loc_txt = {
 		text = {
-			"\"Your roommate owes you 500 credits.",
+			"\"Your roommate owes you 500 budget.",
 			"They say they can pay you back if you just give them a",
 			"little bit more time.",
 			" ",
@@ -3270,7 +3258,7 @@ HotPotato.EventStep {
 		text = {
 			"I can't be living with a leech! You thought.",
 			" ",
-			"Are credits this important to you?"
+			"Are budgets this important to you?"
 		},
 		choices = {
 			continue = "See results",
@@ -3697,7 +3685,7 @@ HotPotato.EventStep {
 		}
 	end,
 	finish = function(self, event)
-		HPTN.ease_credits(-50 * (5 - #SMODS.find_card("c_hpot_imag_duck")))
+		HPTN.ease_budget(-50 * (5 - #SMODS.find_card("c_hpot_imag_duck")))
 		for i, card in ipairs(SMODS.find_card("c_hpot_imag_duck")) do
 			SMODS.destroy_cards(card)
 		end
@@ -3787,7 +3775,7 @@ HotPotato.EventStep {
 		elseif poll == 2 then
 			ease_plincoins(2)
 		elseif poll == 3 then
-			HPTN.ease_credits(20)
+			HPTN.ease_budget(20)
 		elseif poll == 4 then
 			ease_spark_points(2000)
 		elseif poll == 5 then
@@ -4545,10 +4533,8 @@ HotPotato.CombatEvents.generic = {
 					if effect.set_to_zero.plincoins then
 						ease_plincoins(math.min(0, -G.GAME.plincoins), true)
 					end
-					if effect.set_to_zero.credits then
-						HPTN.ease_credits(
-							math.min(0, G.GAME.seeded and -G.GAME.budget or -G.PROFILES[G.SETTINGS.profile].TNameCredits),
-							true)
+					if effect.set_to_zero.budget then
+						HPTN.ease_budget(math.min(0, -G.GAME.budget), true)
 					end
 					if effect.set_to_zero.sparkle then
 						ease_spark_points(math.min(0, -G.GAME.spark_points), true)
@@ -4779,8 +4765,8 @@ HotPotato.CombatEvents.generic = {
 		if reward.plincoins then
 			ease_dollars(reward.plincoins)
 		end
-		if reward.credits then
-			HPTN.ease_credits(reward.credits)
+		if reward.budget then
+			HPTN.ease_budget(reward.budget)
 		end
 		if reward.sparkle then
 			ease_spark_points(reward.sparkle)
@@ -4878,7 +4864,7 @@ local hpot_event_get_random_combat_reward = function(domain, seed)
 		{ tags = { random_amount = 2 }, },
 		{ tags = { keys = { "tag_double" } }, },
 		{ dollars = 4, },
-		{ credits = 30, },
+		{ budget = 30, },
 		{ sparkle = 35000, },
 		{ crypto = 0.5, },
 	}
@@ -4896,7 +4882,7 @@ local hpot_event_get_random_combat_reward = function(domain, seed)
 		{ tags = { random_amount = 5 }, },
 		{ tags = { keys = { "tag_double", "tag_double" } }, },
 		{ dollars = 8, },
-		{ credits = 85, },
+		{ budget = 85, },
 		{ sparkle = 75000, },
 		{ crypto = 2, },
 	}
@@ -5437,7 +5423,7 @@ HotPotato.EventStep {
 
 local hpot_event_transaction_cost_conversion = function(number, to_currency, from_black_market)
 	if to_currency == "dollars" then return number end
-	if to_currency == "credits" then return number * 30 end
+	if to_currency == "budget" then return number * 30 end
 	if to_currency == "plincoin" then return number end
 	if to_currency == "joker_exchange" then return number * 2500 end
 	if to_currency == "crypto" then
@@ -5544,11 +5530,11 @@ HotPotato.EventStep {
 		choices = {
 			spark = "{C:money}$1{} > {C:blue,f:hpot_plincoin}͸5k",
 			plincoins = "{C:money}$10{} > {C:hpot_plincoin,f:hpot_plincoin}$1",
-			credits = "{C:money}$10{} > {C:purple}c.45",
+			budget = "{C:money}$10{} > {C:hpot_budget}e.45",
 			crypto = "{C:money}$20{} > {C:hpot_advert,f:hpot_plincoin}£1",
 			from_spark = "{C:blue,f:hpot_plincoin}͸10k{} > {C:money}$1{}",
 			from_plincoins = "{C:hpot_plincoin,f:hpot_plincoin}$1{} > {C:money}$5{}",
-			from_credits = "{C:purple}c.50{} > {C:money}$5{}",
+			from_budget = "{C:hpot_budget}e.50{} > {C:money}$5{}",
 			from_crypto = "{C:hpot_advert,f:hpot_plincoin}£1{} > {C:money}$10{}",
 			trade_dreams = "Sell Dreams for {C:hpot_plincoin,f:hpot_plincoin}$10",
 			trade_interests = "Sell Interests for {C:blue,f:hpot_plincoin}͸100k{}"
@@ -5577,10 +5563,10 @@ HotPotato.EventStep {
 				end
 			},
 			{
-				key = "credits",
+				key = "budget",
 				button = function()
 					ease_currency("dollars", -10)
-					ease_currency("credits", 45)
+					ease_currency("budget", 45)
 				end,
 				func = function()
 					return to_big(get_currency_amount("dollars") - G.GAME.bankrupt_at) >= to_big(10)
@@ -5617,13 +5603,13 @@ HotPotato.EventStep {
 				end
 			},
 			{
-				key = "from_credits",
+				key = "from_budget",
 				button = function()
-					ease_currency("credits", -50)
+					ease_currency("budget", -50)
 					ease_currency("dollars", 5)
 				end,
 				func = function()
-					return get_currency_amount("credits") >= 100
+					return get_currency_amount("budget") >= 100
 				end
 			},
 			{
@@ -5716,7 +5702,7 @@ HotPotato.EventStep {
 			5 * 1.02 * G.CARD_W,
 			1.05 * G.CARD_H,
 			{ card_limit = 5, type = 'shop', highlight_limit = 1, negative_info = true })
-		local currencies = { "dollars", "joker_exchange", "plincoin", "credits", "crypto" }
+		local currencies = { "dollars", "joker_exchange", "plincoin", "budget", "crypto" }
 		for i = 1, 5 do
 			local voucher_poll = pseudorandom("hpot_event_transaction_voucher")
 			if voucher_poll < 0.98 then
@@ -5829,11 +5815,11 @@ HotPotato.EventStep {
 			dollars = "{C:hpot_advert,f:hpot_plincoin}£1{} > {C:money}$20{}",
 			spark = "{C:hpot_advert,f:hpot_plincoin}£1{} > {C:blue,f:hpot_plincoin}͸100k",
 			plincoins = "{C:hpot_advert,f:hpot_plincoin}£1{} > {C:hpot_plincoin,f:hpot_plincoin}$6",
-			credits = "{C:hpot_advert,f:hpot_plincoin}£1{} > {C:purple}c.90",
+			budget = "{C:hpot_advert,f:hpot_plincoin}£1{} > {C:hpot_budget}e.90",
 			from_dollars = "{C:money}$30{} > {C:hpot_advert,f:hpot_plincoin}£1{}",
 			from_spark = "{C:blue,f:hpot_plincoin}͸300k{} > {C:hpot_advert,f:hpot_plincoin}£1{}",
 			from_plincoins = "{C:hpot_plincoin,f:hpot_plincoin}$8{} > {C:hpot_advert,f:hpot_plincoin}£1{}",
-			from_credits = "{C:purple}c.185{} > {C:hpot_advert,f:hpot_plincoin}£1{}",
+			from_budget = "{C:hpot_budget}e.185{} > {C:hpot_advert,f:hpot_plincoin}£1{}",
 			trade_questions = "Sell Questions for {C:hpot_advert,f:hpot_plincoin}£10{}",
 			trade_emotions = "Sell Emotions for {C:hpot_advert,f:hpot_plincoin}£10{}"
 		}
@@ -5871,10 +5857,10 @@ HotPotato.EventStep {
 				end
 			},
 			{
-				key = "credits",
+				key = "budget",
 				button = function()
 					ease_currency("crypto", -1)
-					ease_currency("credits", 90)
+					ease_currency("budget", 90)
 				end,
 				func = function()
 					return get_currency_amount("crypto") >= 1
@@ -5911,13 +5897,13 @@ HotPotato.EventStep {
 				end
 			},
 			{
-				key = "from_credits",
+				key = "from_budget",
 				button = function()
-					ease_currency("credits", -185)
+					ease_currency("budget", -185)
 					ease_currency("crypto", 1)
 				end,
 				func = function()
-					return get_currency_amount("credits") >= 600
+					return get_currency_amount("budget") >= 600
 				end
 			},
 			{

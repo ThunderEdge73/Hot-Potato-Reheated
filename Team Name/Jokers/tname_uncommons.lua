@@ -63,15 +63,15 @@ SMODS.Joker({
 		local jank = ""
         for i = card.ability.extra.min, card.ability.extra.max do
 			if i < 0 then
-				jank = G.GAME.seeded and " + e." or " - c."
+				jank = " - e."
 			else
-				jank = G.GAME.seeded and " + e." or " + c." 
-			end
+				jank = " + e."
+			end 
             r_mults[#r_mults + 1] = jank..math.abs(i)
         end
-        local loc_mult = {string = ' ', colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE}
+        local loc_mult = {string = ' ', colour = {0.8, 0.45, 0.85, 1}}
         local main_start = {
-            { n = G.UIT.O, config = { object = DynaText({ string = r_mults, colours = { G.GAME.seeded and G.C.ORANGE or G.C.PURPLE }, pop_in_rate = 9999999, silent = true, random_element = true, pop_delay = 0.5, scale = 0.32, min_cycle_time = 0 }) } },
+            { n = G.UIT.O, config = { object = DynaText({ string = r_mults, colours = { {0.8, 0.45, 0.85, 1} }, pop_in_rate = 9999999, silent = true, random_element = true, pop_delay = 0.5, scale = 0.32, min_cycle_time = 0 }) } },
             {
                 n = G.UIT.O,
                 config = {
@@ -97,10 +97,10 @@ SMODS.Joker({
 		local fuck = pseudorandom("fuck", card.ability.extra.min, card.ability.extra.max)
 		local jank = fuck < 0 and "-" or "+"
 		if context.joker_main then
-			HPTN.ease_credits(fuck, false)
+			HPTN.ease_budget(fuck, false)
 			return {
-				message = jank..(G.GAME.seeded and "e." or "c.")..fuck,
-				colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE
+				message = jank..("e.")..fuck,
+				colour = {0.8, 0.45, 0.85, 1}
 			}
 		end
 	end,
@@ -117,7 +117,7 @@ SMODS.Joker({
 	rarity = 2,
     blueprint_compat = false,
 	cost = 0,
-	credits = 5,
+	budget = 5,
 	config = {
 		extra = {
 			dollars = 2
@@ -232,19 +232,15 @@ SMODS.Joker({
 	pos = {x=8,y=0},
 	atlas = "tname_jokers2",
 	loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
 		local hpt = card.ability.extra
 			return {
-				vars = { hpt.xmult, hpt.credits},
-				key = key
+				vars = { hpt.xmult, hpt.credits }
 			}
 	end,
 	calculate = function(self, card, context)
 		local hpt = card.ability.extra
 		if context.end_of_round then
-			if hpt.fuckshit then HPTN.ease_credits(hpt.credits * hpt.hands) hpt.fuckshit = false end
+			if hpt.fuckshit then HPTN.ease_budget(hpt.credits * hpt.hands) hpt.fuckshit = false end
 			if (card.ability.perish_tally or 1.0001) < 1 then
 				check_for_unlock({type = 'frums'})
 			end

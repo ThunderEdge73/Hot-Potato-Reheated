@@ -5,6 +5,7 @@
 function init_perkeocoin(game)
 
   game.plincoins = game.plincoins or 0
+  game.budget = game.budget or 15
   game.balls_dropped = game.balls_dropped or 0
   game.plincoins_per_round = game.plincoins_per_round or PlinkoLogic.s.plincoins_per_round
   game.current_round.plincoins = game.current_round.plincoins or 0

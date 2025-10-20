@@ -137,16 +137,9 @@ end
 function PissDrawer.Shop.currency_display()
     local jank = 
     PissDrawer.Shop.currency_node({
-        symbol = localize('hotpot_reforge_credits'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.PURPLE, ref_value =
-    'TNameCredits', ref_table = G.PROFILES[G.SETTINGS.profile], no_bump = true
+        symbol = localize('hotpot_reforge_budget'), font = SMODS.Fonts.hpot_plincoin, colour = {0.8, 0.45, 0.85, 1}, ref_value =
+    'budget', ref_table = G.GAME, no_bump = true
     })
-    if G.GAME.seeded then
-        jank = 
-    PissDrawer.Shop.currency_node({
-        symbol = localize('hotpot_reforge_budget'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.ORANGE, ref_value =
-    'budget', ref_table = G.GAME, no_bump = true, id = 'TNameCredits'
-    })
-    end
     return {
        n=G.UIT.R,
         config = { align = 'cm', colour = G.C.L_BLACK, r = 0.1, padding = 0.1 },
@@ -181,14 +174,9 @@ end
 function PissDrawer.Shop.currency_display_small(args)
     local args = args or {}
     local minh, minw, maxw, scale = 0.5, 1.4, 1.4, 0.4
-    local jank = PissDrawer.Shop.currency_node({
-            symbol = localize('hotpot_reforge_credits'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.PURPLE, ref_value = 'TNameCredits', ref_table = G.PROFILES[G.SETTINGS.profile], no_bump = true, minh = minh, minw = minw, maxw = maxw, scale = scale
-        })
-        if G.GAME.seeded then
-jank = PissDrawer.Shop.currency_node({
-            symbol = localize('hotpot_reforge_budget'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.ORANGE, ref_value = 'budget', ref_table = G.GAME, no_bump = true, minh = minh, minw = minw, maxw = maxw, scale = scale
-        })
-        end
+    jank = PissDrawer.Shop.currency_node({
+        symbol = localize('hotpot_reforge_budget'), font = SMODS.Fonts.hpot_plincoin, colour = {0.8, 0.45, 0.85, 1}, ref_value = 'budget', ref_table = G.GAME, no_bump = true, minh = minh, minw = minw, maxw = maxw, scale = scale
+    })
     local currencies = {
         PissDrawer.Shop.currency_node({
             symbol = localize('$'), colour = G.C.GOLD, ref_value = 'dollars', no_bump = true, minh = minh, minw = minw, maxw = maxw, scale = scale
@@ -745,10 +733,6 @@ end
 
 PissDrawer.Shop.reforge_button = function(args)
     local internal = args.currency
-    if args.currency == "credits" and G.GAME.seeded then
-        args.currency = "budget"
-        args.colour = G.C.ORANGE
-    end
     return
     {n = G.UIT.C, config = {minw = 2, align = 'cm', r=0.1, padding = 0.1, emboss = 0.1, colour = args.colour or G.C.L_BLACK, currency = internal, button = 'reforge_with_'..internal, func = 'can_reforge', hover = true, button_dist = 0.5}, nodes = {
         {n=G.UIT.C, config = {padding = 0.1}, nodes = {
@@ -1271,10 +1255,6 @@ end
 
 PissDrawer.Shop.spark_exchange_button = function(args)
     local internal = args.currency
-    if args.currency == "credits" and G.GAME.seeded then
-        args.currency = "budget"
-        args.colour = G.C.ORANGE
-    end
     return
     {n = G.UIT.C, config = {minw = 1.3, align = 'cm', r=0.1, padding = 0.1, emboss = 0.1, colour = args.colour or G.C.L_BLACK, currency = internal, button = 'switch_spark_exchange', func = 'can_switch_spark_exchange', text_colour = args.text_colour, hover = true, button_dist = 0.5}, nodes = {
         {n=G.UIT.O, config={id = 'spark_exchange_'..internal, object = DynaText({string = {localize('hotpot_reforge_'..args.currency)},
@@ -1737,7 +1717,7 @@ function PissDrawer.Shop.wheel()
                                                                 colours = {G.C.WHITE}, maxw = 1.6, shadow = true, spacing = 2, scale = 0.5})}},
                                                             }},
                                                             {n=G.UIT.R, config = {align = 'cm'}, nodes = {
-                                                                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = Wheel, ref_value = 'Price', prefix = G.GAME.seeded and localize('hotpot_reforge_budget') or localize('hotpot_reforge_credits'), font = SMODS.Fonts.hpot_plincoin}},
+                                                                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = Wheel, ref_value = 'Price', prefix = localize('hotpot_reforge_budget'), font = SMODS.Fonts.hpot_plincoin}},
                                                                 colours = {G.C.WHITE}, maxw = 1.6, shadow = true, spacing = 2, scale = 0.5})}}
                                                             }}
                                                         }},
@@ -1781,7 +1761,7 @@ end
 
 function G.FUNCS.handle_wheel_colour(e)
     e.config.active = not PissDrawer.Shop.reset_wheel_counter and (2 - (Wheel.cost_up % 2)) >= e.config.cost_up
-    e.config.colour = G.GAME.seeded and G.C.ORANGE or G.C.PURPLE
+    e.config.colour = {0.8, 0.45, 0.85, 1}
     e.config.colour = e.config.active and e.config.colour or G.C.BLACK
 end
 

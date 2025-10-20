@@ -1681,10 +1681,7 @@ in_pool = function(self, args)
         ['bottlecap_Bad'] = true
     },
     loc_vars = function(self, info_queue, card)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
-        return {vars = {card.ability.extra[card.ability.extra.chosen]}, key = key}
+        return {vars = {card.ability.extra[card.ability.extra.chosen]}}
     end,
 
     set_badges = HotPotato.bottlecap_badges,
@@ -1694,7 +1691,7 @@ in_pool = function(self, args)
     end,
 
     use = function(self, card, area, copier)
-        HPTN.ease_credits(card.ability.extra[card.ability.extra.chosen])
+        HPTN.ease_budget(card.ability.extra[card.ability.extra.chosen])
     end
 }
 

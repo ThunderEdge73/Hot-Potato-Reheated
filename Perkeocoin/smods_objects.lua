@@ -877,7 +877,7 @@ SMODS.Consumable { --Cash Exchange
 
     use = function(self, card, area, copier)
         ease_dollars(-card.ability.extra.dollars)
-        HPTN.ease_credits(card.ability.extra.credits)
+        HPTN.ease_budget(card.ability.extra.credits)
     end
 }
 
@@ -956,7 +956,7 @@ SMODS.Consumable { --Sacrifice
 
     use = function(self, card, area, copier)
         check_for_unlock({ type = "fuck_soul", conditions = G.jokers.highlighted[1].config.center.rarity })
-        HPTN.ease_credits(sac_czech())
+        HPTN.ease_budget(sac_czech())
         G.jokers.highlighted[1].getting_sliced = true
         G.E_MANAGER:add_event(Event({func = function()
             card:juice_up(0.8, 0.8)
@@ -1099,7 +1099,7 @@ SMODS.Consumable { --Collateral
         local then_perish = G.jokers.highlighted[1]
         then_perish:set_perishable(true)
         then_perish:juice_up(0.5,0.5)
-        HPTN.ease_credits(card.ability.extra.credits)
+        HPTN.ease_budget(card.ability.extra.credits)
     end
 }
 
@@ -1143,7 +1143,7 @@ SMODS.Consumable { --CoD Account
         local deposit = G.jokers.highlighted[1]
         deposit:set_eternal(true)
         deposit:juice_up(0.5,0.5)
-        HPTN.ease_credits(card.ability.extra.credits)
+        HPTN.ease_budget(card.ability.extra.credits)
     end
 }
 
@@ -1187,7 +1187,7 @@ SMODS.Consumable { --Subscription
         local rent = G.jokers.highlighted[1]
         rent:set_rental(true)
         rent:juice_up(0.5,0.5)
-        HPTN.ease_credits(card.ability.extra.credits)
+        HPTN.ease_budget(card.ability.extra.credits)
     end
 }
 
@@ -1576,7 +1576,7 @@ SMODS.Booster {
     config = { choose = 3, extra = 7 },
     discovered = true,
     cost = 0,
-    credits = 100,
+    budget = 100,
     weight = 0.4,
     kind = 'hpot_czech',
     group_key = 'k_hpot_czech_pack',

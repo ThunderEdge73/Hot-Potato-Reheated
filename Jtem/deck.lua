@@ -30,7 +30,7 @@ local deck = SMODS.Back {
             add_round_eval_plincoins({name='plincoins', plincoins = 1})
             ease_cryptocurrency(1)
             ease_spark_points(1)
-            HPTN.ease_credits(1)
+            HPTN.ease_budget(1)
         end]] -- Moved into a lovely patch by UnusedParadox
         --Pissdrawer addition: Chips and mult from highest poker hand held in hand is added to scoring
         if context.initial_scoring_step then
@@ -103,7 +103,7 @@ HotPotato.currencies = {
     { text = localize('$'), color = SMODS.Gradients.hpot_plincoin, font = SMODS.Fonts.hpot_plincoin },
     { text = "͸", color = G.C.BLUE, font = SMODS.Fonts.hpot_plincoin },
     { text = "£", color = SMODS.Gradients.hpot_advert, font = SMODS.Fonts.hpot_plincoin },
-    { text = "c", color = G.C.PURPLE, font = SMODS.Fonts.hpot_plincoin },
+    { text = "e", color = {0.8, 0.45, 0.85, 1}, font = SMODS.Fonts.hpot_plincoin },
 }
 
 function add_round_eval_all_currencies(config)
@@ -196,7 +196,7 @@ function add_round_eval_all_currencies(config)
 
     -- might cause issues. Dollars cashout adds up everything and sends "bottom" cashout. Might need similar implementation if more plincoin cashouts are added
     G.GAME.current_round.spark_points = G.GAME.current_round.spark_points + 1
-    G.GAME.current_round.credits = G.GAME.current_round.credits + 1
+    G.GAME.current_round.budget = G.GAME.current_round.budget + 1
     G.GAME.current_round.cryptocurrency = G.GAME.current_round.cryptocurrency + 1
     G.GAME.current_round.plincoins = G.GAME.current_round.plincoins + 1
 end

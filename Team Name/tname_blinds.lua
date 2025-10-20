@@ -69,22 +69,16 @@ SMODS.Blind {
     boss = { min = 3 },
     calculate = function(self, blind, context)
         if not blind.disabled and context.press_play then
-            HPTN.ease_credits(-5)
+            HPTN.ease_budget(-5)
         end
     end,
     key = "credential",
-    loc_vars = function (self)
-		local key
-		local fucking = G.GAME.seeded and "_budget" or ""
-		key = (self.key .. fucking)
-        return {key = key}
-    end,
     atlas = "Fuck",
     pos = { x= 0, y = 0 },
     dollars = 5,
     mult = 2,
     in_pool = function (self)
-        if HPTN.check_if_enough_credits(0) then
+        if HPTN.check_if_enough_budget(0) then
             return true
         end
         return false

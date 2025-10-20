@@ -21,7 +21,7 @@ Market Reroll cost when Market Rerolling     DONE
 G.GAME.cost_dollar_default     DONE
 G.GAME.cost_plincoins_default     DONE
 G.GAME.cost_spark_default     DONE
-G.GAME.cost_credit_default     DONE
+G.GAME.cost_budget_default     DONE
 G.GAME.cost_cryptocurrency_default     DONE
 
 ]]
@@ -34,7 +34,7 @@ Horsechicot.unstable = {
         "cost_dollar_default",
         "cost_plincoins_default",
         "cost_spark_default",
-        "cost_credit_default",
+        "cost_budget_default",
         "cost_cryptocurrency_default",
         "round"
     },
@@ -59,9 +59,8 @@ function randomize_values()
             G.GAME.current_round[v] = G.GAME.round_resets[v]
         end
     end
-    if not G.GAME.seeded then G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameCredits * (pseudorandom("unstable_deck_credits") * 0.1 - 0.05 + 1) else
-        G.GAME.budget = G.GAME.budget * (pseudorandom("unstable_deck_credits") * 0.1 - 0.05 + 1) end
-    G.GAME.credits_text = G.GAME.seeded and G.GAME.budget or G.PROFILES[G.SETTINGS.profile].TNameCredits
+    G.GAME.budget = G.GAME.budget * (pseudorandom("unstable_deck_budget") * 0.1 - 0.05 + 1)
+    G.GAME.budget_text = G.GAME.budget
     if G.HUD then
         local uie = G.HUD:get_UIE_by_ID('credits_UI_text')
         if uie and uie.config.object then

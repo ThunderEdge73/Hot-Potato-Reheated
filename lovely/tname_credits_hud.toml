@@ -39,7 +39,7 @@ priority = -1
 #           {n=G.UIT.R, config={minh = spacing},nodes={}},
 #           {n=G.UIT.R, config={align = "cm", minh = 0.7}, nodes={
 #             {n=G.UIT.C, config={align = "cm", r = 0.1, minw = 0.64*2+spacing, minh = 0.7, colour = temp_col2}, nodes={
-#               {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'credits_text', prefix = ''}}, maxw = 1.35, colours = {G.C.PURPLE}, font = G.LANGUAGES['en-us'].font, shadow = true,spacing = 2, bump = true, scale = 1.6*scale}), id = 'credits_UI_text'}}
+#               {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'budget_text', prefix = ''}}, maxw = 1.35, colours = {G.C.PURPLE}, font = G.LANGUAGES['en-us'].font, shadow = true,spacing = 2, bump = true, scale = 1.6*scale}), id = 'credits_UI_text'}}
 #             }},
 #           }},
 #         }},
@@ -125,18 +125,6 @@ match_indent = true
 [patches.pattern]
 target = 'functions/button_callbacks.lua'
 pattern = '''
-function G.FUNCS.toggle_seeded_run(e)
-'''
-position = "after"
-payload = '''
-local janks = create_text_input({max_length = 8, all_caps = false, ref_table = G, ref_value = 'setup_budget', prompt_text = localize('teamname_budget'), colour = copy_table(G.C.ORANGE), hooked_colour = darken(copy_table(G.C.ORANGE), 0.3), id = "tname_budget"}) 
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-pattern = '''
   elseif not e.config.object and G.run_setup_seed then
     e.config.object = UIBox{
       definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
@@ -151,7 +139,6 @@ pattern = '''
 position = "after"
 payload = '''
           ,{n=G.UIT.C, config={align = "cm", minw = 0.1}, nodes={}},
-          janks,
 '''
 match_indent = true
 
@@ -164,44 +151,6 @@ pattern = '''
 position = "after"
 payload = '''
   G.setup_budget = ''
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-pattern = '''
-    local _seed = G.run_setup_seed and G.setup_seed or G.forced_seed or nil
-'''
-position = "after"
-payload = '''
-    local _budget = tonumber(G.setup_budget) or 25
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'functions/button_callbacks.lua'
-pattern = '''
-    G.FUNCS.start_run(e, {stake = _stake, seed = _seed, challenge = _challenge})
-'''
-position = "at"
-payload = '''
-    G.FUNCS.start_run(e, {stake = _stake, seed = _seed, challenge = _challenge, budget = _budget})
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'game.lua'
-pattern = '''
-function Game:update(dt)
-'''
-position = "after"
-payload = '''
-    if G and G.GAME and G.GAME.seeded then
-        HotPotato.effect_options[3] =G.GAME.seeded and "hpot_diy_earn_budget" or "hpot_diy_earn_credits"
-    end
 '''
 match_indent = true
 

@@ -116,7 +116,7 @@ function add_round_eval_spark_points(config)
 end
 --#endregion
 --#region Credits stuff
-function Card:calculate_credits_bonus()
+function Card:calculate_budget_bonus()
     if not self:can_calculate() then return end
     local obj = self.config.center
     if obj.calc_credits_bonus and type(obj.calc_credits_bonus) == 'function' then

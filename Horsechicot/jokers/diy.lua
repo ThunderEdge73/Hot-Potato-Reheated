@@ -44,7 +44,7 @@ HotPotato.trigger_options = {
 HotPotato.effect_options = {
     "hpot_diy_earn_dollars",
     "hpot_diy_earn_plincoins",
-    "hpot_diy_earn_credits",
+    "hpot_diy_earn_budget",
     "hpot_diy_earn_sparks",
     "hpot_diy_earn_crypto",
     "hpot_diy_random_consumable",
@@ -76,7 +76,7 @@ function HotPotato.diy_effect(self, card, context)
     elseif G.GAME.hotpot_diy.effect == 2 then
         ease_plincoins(0.5)
     elseif G.GAME.hotpot_diy.effect == 3 then
-        HPTN.ease_credits(0.1)
+        HPTN.ease_budget(0.1)
     elseif G.GAME.hotpot_diy.effect == 4 then
         ease_spark_points(1000)
     elseif G.GAME.hotpot_diy.effect == 5 then
