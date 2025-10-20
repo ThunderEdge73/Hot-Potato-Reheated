@@ -12,9 +12,9 @@ From the original repo:
 ***Note about compatibility:*** While this mod will remain updated with bugfixes from the original Hot Potato repository, the goal of this revision is not to expand compatibility to other mods.
 
 ## Reworkers
-- ThunderEdge (Code: Training, Lead Reviser)
+- ThunderEdge (Code: Training + Temporal Shop, Lead Reviser)
 - Corobo (Code, Ideas)
-- Jamirror (Code: Consumables)
+- Jamirror (Code: Consumables + Credits Rework)
 - Meta (Code: Black Market, Rewording)
 - Astro (Art, Ideas)
 
