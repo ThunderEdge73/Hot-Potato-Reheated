@@ -12,10 +12,10 @@ position = "at"
 payload = '''
 (not G.GAME.seeded) and {n=G.UIT.R, config={align = "cm", padding = 0.08}, nodes={
     {n=G.UIT.C, config={padding = 0.05, minw = 0, minh = 0.61, align = "cl"}, nodes={
-        {n=G.UIT.O, config={object = DynaText({string = {" "..localize{type = 'variable', key = 'hpot_creinterest', vars = {1, 5}}}, colours = {G.C.UI.TEXT_LIGHT}, shadow = true, pop_in = 0, scale = 0.3, silent = true})}}
+        {n=G.UIT.O, config={object = DynaText({string = {" "..localize{type = 'variable', key = 'hpot_creinterest', vars = {hpot_credits, hpot_per}}}, colours = {G.C.UI.TEXT_LIGHT}, shadow = true, pop_in = 0, scale = 0.3, silent = true})}}
     }},
     {n=G.UIT.C, config={padding = 0.05, minw = 0, minh = 0.61, align = "cl"}, nodes={
-        {n=G.UIT.T, config={text = "c." .. math.floor(to_big(G.GAME.budget) / to_big(5)), scale = 0.4, colour = G.C.PURPLE, shadow = true, juice = true}}
+        {n=G.UIT.T, config={text = "c." .. hpot_creinterest, scale = 0.4, colour = G.C.PURPLE, shadow = true, juice = true}}
     }},
 }},
 {n=G.UIT.R, config={align = "cm", padding = 0.08}, nodes={
@@ -29,9 +29,24 @@ target = '''functions/UI_definitions.lua'''
 pattern = '''function create_UIBox_win()'''
 position = "after"
 payload = '''
+    local hpot_creinterest;
+    local hpot_credits;
+    local hpot_per;
     if not G.GAME.seeded then
-        G.PROFILES[G.SETTINGS.profile].TNameCredits = to_big(G.PROFILES[G.SETTINGS.profile].TNameCredits) + math.floor(to_big(G.GAME.budget) / to_big(5))
+        hpot_credits = to_big(G.GAME.stake); -- 1 for white stake, etc
+        hpot_per = to_big(5)
+        hpot_creinterest = hpot_credits * (math.floor(to_big(G.GAME.budget) / hpot_per))
+        G.PROFILES[G.SETTINGS.profile].TNameCredits = to_big(G.PROFILES[G.SETTINGS.profile].TNameCredits) + hpot_creinterest
     end
 '''
 match_indent = true
 
+[[patches]]
+[patches.pattern]
+target = '''functions/UI_definitions.lua'''
+pattern = '''{n=G.UIT.R, config={align = "cm", padding = 0.05, minh = 0.9}, nodes={'''
+position = "before"
+payload = '''(type ~= 'Continue') and {n=G.UIT.R, config={align = "cm", padding = 0.08,minh = 0.17,minw = 6.8}, nodes={
+    {n=G.UIT.O, config={func="RUN_SETUP_credit",insta_func=true, minw = 6.8, minh = 0.17, object=G.UIDEF.RUN_SETUP_credit()}}
+}},'''
+match_indent = true

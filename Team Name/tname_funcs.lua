@@ -432,56 +432,6 @@ function add_tables(tables) -- yet again, there is probably a better way to do t
     return ful_tab
 end
 
-function ease_credits(amount, instant)
-    amount = amount or 0
-    if ExtraCredit and (amount > 0) then
-        amount = amount * 3
-    end
-    local function _mod(mod) -- Taken from ease_plincoins()
-        local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
-        mod = mod or 0
-        local text = '+c.'
-        local col = G.C.PURPLE
-        if mod < 0 then
-            text = '-c.'
-            col = G.C.RED
-        end
-
-        G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameCredits + amount
-
-        if amount ~= 0 then
-            attention_text({
-                text = text .. tostring(math.abs(mod)),
-                scale = 0.8,
-                hold = 0.7,
-                cover = dollar_UI.parent,
-                cover_colour = col,
-                align = 'cm',
-            })
-            --Play a chip sound
-            if amount > 0 then
-                play_sound("hpot_tname_gaincred")
-            else
-                play_sound("hpot_tname_losecred")
-            end
-        end
-    end
-
-    if instant then
-        _mod(amount)
-    else
-        G.E_MANAGER:add_event(Event({
-            trigger = 'immediate',
-            func = function()
-                _mod(amount)
-                return true
-            end
-        }))
-    end
-
-    G:save_progress()
-end
-
 -- probably shouldve made this a global function but whatever
 function HPTN.ease_budget(amount, instant)
     amount = amount or 0
