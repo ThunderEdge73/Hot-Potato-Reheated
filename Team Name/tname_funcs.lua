@@ -440,7 +440,7 @@ function HPTN.ease_budget(amount, instant)
         mod = mod or 0
         local text = '+e.'
         local col = {0.8, 0.45, 0.85, 1}
-        if mod < 0 then
+        if to_big(mod) < to_big(0) then
             text = '-e.'
             col = G.C.RED
         end
