@@ -144,7 +144,7 @@ function G.FUNCS.can_reforge(e)
 end
 
 function G.FUNCS.can_reforge_with_budget(e)
-    if not HPTN.check_if_enough_budget(G.GAME.cost_credits) or not G.GAME.ref_placed then
+    if not HPTN.check_if_enough_budget(G.GAME.cost_budget) or not G.GAME.ref_placed then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
             e.config.button = nil
         else
@@ -195,7 +195,7 @@ function G.FUNCS.can_reforge_with_cryptocurrency(e)
 --
 
 G.FUNCS.reforge_with_budget = function ()
-    HPTN.ease_budget(-G.GAME.cost_credits)
+    HPTN.ease_budget(-G.GAME.cost_budget)
     set_card_reforge() -- 
     update_reforge_cost()
     reforge_card(G.reforge_area.cards[1], false, "BUDGET")

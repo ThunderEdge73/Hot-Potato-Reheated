@@ -719,7 +719,7 @@ function PissDrawer.Shop.reforge_shop()
             {n=G.UIT.C, config = {padding = -0.1}, nodes = {
                 {n=G.UIT.R, config = {padding = 0.2, colour = G.C.CLEAR, align = 'cm'}, nodes = {
                     PissDrawer.Shop.reforge_button({currency = 'dollars'}),
-                    PissDrawer.Shop.reforge_button({currency = 'credits', font = SMODS.Fonts.hpot_plincoin,}),
+                    PissDrawer.Shop.reforge_button({currency = 'budget', font = SMODS.Fonts.hpot_plincoin,}),
                     PissDrawer.Shop.reforge_button({currency = 'sparks', font = SMODS.Fonts.hpot_plincoin,}),
                 }},
                 {n=G.UIT.R, config = {padding = 0.2, colour = G.C.CLEAR, align = 'cm'}, nodes = {

@@ -321,7 +321,7 @@ SMODS.Joker {
             if context.currency == "DOLLAR" then
                 ease_dollars(math.floor((G.GAME.cost_dollars - context.card.ability.reforge_dollars) * card.ability.extra))
             elseif context.currency == "BUDGET" then
-                HPTN.ease_budget(math.floor((G.GAME.cost_credits - context.card.ability.reforge_credits) * card.ability.extra))
+                HPTN.ease_budget(math.floor((G.GAME.cost_budget - context.card.ability.reforge_credits) * card.ability.extra))
             elseif context.currency == "SPARKLE" then
                 ease_spark_points(math.floor((G.GAME.cost_sparks - context.card.ability.reforge_sparks) * card.ability.extra))
             elseif context.currency == "PLINCOIN" then

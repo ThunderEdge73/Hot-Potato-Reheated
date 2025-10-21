@@ -94,7 +94,7 @@ SMODS.Voucher {
 	key = 'costcutting',
 	pos = { x = 2, y = 0 },
 	redeem = function(self, voucher)
-		G.GAME.cost_credits_default = G.GAME.cost_budget_default - 2
+		G.GAME.cost_budget_default = G.GAME.cost_budget_default - 2
 		G.GAME.cost_dollars_default = G.GAME.cost_dollars_default - 2
 		G.GAME.cost_sparks_default = G.GAME.cost_sparks_default - 2
 		G.GAME.cost_plincoins_default = G.GAME.cost_plincoins_default - 2

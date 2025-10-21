@@ -303,14 +303,14 @@ function update_reforge_cost(card)
     if not G.GAME.used_vouchers["v_hpot_intership"] then                         -- discarded voucher feel free to add it
         G.GAME.cost_dollars = G.GAME.cost_dollars +
         card.ability.reforge_dollars                                             -- update the price with card's ability table
-        G.GAME.cost_credits = G.GAME.cost_credits + card.ability.reforge_credits
+        G.GAME.cost_budget = G.GAME.cost_budget + card.ability.reforge_credits
         G.GAME.cost_sparks = G.GAME.cost_sparks + card.ability.reforge_sparks
         card.ability.reforge_plincoins = card.ability.reforge_plincoins or 10
         G.GAME.cost_plincoins = G.GAME.cost_plincoins + card.ability.reforge_plincoins
         G.GAME.cost_cryptocurrency = G.GAME.cost_cryptocurrency + card.ability.reforge_cryptocurrency
     else
         G.GAME.cost_dollars = card.ability.reforge_dollars -- if the voucher exists stop updating
-        G.GAME.cost_credits = card.ability.reforge_credits
+        G.GAME.cost_budget = card.ability.reforge_credits
         G.GAME.cost_sparks = card.ability.reforge_sparks
         G.GAME.cost_plincoins = card.ability.reforge_plincoins or card.ability.reforge_plincoins_default
         G.GAME.cost_cryptocurrency = card.ability.reforge_cryptocurrency
@@ -336,7 +336,7 @@ end
 -- reseting the reforge cost
 function reset_reforge_cost() -- reset the cost to defults
     G.GAME.cost_dollars = G.GAME.cost_dollar_default
-    G.GAME.cost_credits = G.GAME.cost_budget_default
+    G.GAME.cost_budget = G.GAME.cost_budget_default
     G.GAME.cost_sparks = G.GAME.cost_spark_default
     G.GAME.cost_plincoins = G.GAME.cost_plincoin_default
     G.GAME.cost_cryptocurrency = G.GAME.cost_cryptocurrency_default
@@ -356,7 +356,7 @@ function final_ability_values(card) -- save the card's final values ( so it scal
     card.ability.reforge_cryptocurrency_default = card.ability.reforge_cryptocurrency
 
     card.ability.reforge_dollars = G.GAME.cost_dollars - G.GAME.cost_dollar_default
-    card.ability.reforge_credits = G.GAME.cost_credits - G.GAME.cost_budget_default
+    card.ability.reforge_credits = G.GAME.cost_budget - G.GAME.cost_budget_default
     card.ability.reforge_sparks = G.GAME.cost_sparks - G.GAME.cost_spark_default
     card.ability.reforge_plincoins = G.GAME.cost_plincoins - G.GAME.cost_plincoin_default
     card.ability.reforge_cryptocurrency = G.GAME.cost_cryptocurrency - G.GAME.cost_cryptocurrency_default
