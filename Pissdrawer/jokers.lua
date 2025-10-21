@@ -186,7 +186,7 @@ SMODS.Joker {
             credit_gain = 0.1,
             social_credit = 0,
             social_credit_max = 1,
-            conversion_rate = 2000
+            conversion_rate = 100000
         }
     },
     hotpot_credits = {
@@ -215,6 +215,7 @@ SMODS.Joker {
     add_to_deck = function(self, card, from_debuff)
         card.ability.china = (HotPotato and HotPotato.allcalcs[math.floor(pseudorandom('china', 1, #HotPotato.allcalcs))]) or
             'piss'
+            print(card.ability.china)
         card:add_sticker('perishable', true)
     end,
     calculate = function(self, card, context)
@@ -225,7 +226,7 @@ SMODS.Joker {
         if context[card.ability.china] and card.ability.trig == false and not context.blueprint then
             card.ability.trig = true
             card.ability.china = (HotPotato and HotPotato.allcalcs[math.floor(pseudorandom('china', 1, #HotPotato.allcalcs))])
-            hpt.social_credit_max = pseudorandom('social_credit', -1005000, 1000000)
+            hpt.social_credit_max = pseudorandom('social_credit', -500000, 2000000)
             hpt.social_credit = hpt.social_credit + hpt.social_credit_max
             if to_number(hpt.social_credit) < 0 then
                 return {

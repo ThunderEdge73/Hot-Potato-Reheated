@@ -143,8 +143,8 @@ end
 local can_open_old = G.FUNCS.can_open -- same for boosters
 function G.FUNCS.can_open(e)
     local card = e.config.ref_table.config.center
-    if card.credits then
-        if (not HPTN.check_if_enough_budget(card.credits)) and card.credits then
+    if card.budget then
+        if (not HPTN.check_if_enough_budget(card.budget)) and card.budget then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
             e.config.button = nil
         else
