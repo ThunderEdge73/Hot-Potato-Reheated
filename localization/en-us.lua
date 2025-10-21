@@ -2301,6 +2301,30 @@ return {
                 text = {
                     "{C:red,s:1.1}+#1#{} Mult"
                 }
+            },
+            j_hpot_hanafuda_value_mod = {
+                name = "Hanafuda Value Mod",
+                text = {
+                    "Add 1 to hanafuda"
+                }
+            },
+            j_hpot_hanafuda_value_set = {
+                name = "Hanafuda Value Set",
+                text = {
+                    "Hanafuda is set to 0"
+                }
+            },
+            j_hpot_hanafuda_range_mod = {
+                name = "Hanafuda Range Mod",
+                text = {
+                    "Hanafuda range is 0-4"
+                }
+            },
+            j_hpot_hanafuda_range_set = {
+                name = "Hanafuda Range Set",
+                text = {
+                    "Hanafuda range is 3-7"
+                }
             }
         },
         Enhanced = {

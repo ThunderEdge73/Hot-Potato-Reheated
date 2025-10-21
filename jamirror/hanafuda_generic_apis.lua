@@ -6,7 +6,21 @@ SMODS.ConsumableType({
 	shop_rate = 0.09,
 })
 
+local old_SMODS_calculate_individual_effect = SMODS.calculate_individual_effect
+SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, from_edition)
+    if key == 'min' or key == 'max' or key == 'value' then
+        return { [key] = amount }
+    end
+    return old_SMODS_calculate_individual_effect(effect, scored_card, key, amount, from_edition)
+end
+
 local old_SMODS_update_context_flags = SMODS.update_context_flags
+SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'min'
+SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'max'
+SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = 'value'
+SMODS.silent_calculation.min = true;
+SMODS.silent_calculation.max = true;
+SMODS.silent_calculation.value = true;
 function SMODS.update_context_flags(context, flags)
     if context.hanafuda_mod_value_range or context.hanafuda_set_value_range then
         if flags.min then context.min = flags.min end
@@ -24,23 +38,31 @@ function Hanafuda.calculate_value_range(card, min, max)
     context.max = max;
     context.initial_min = min;
     context.initial_max = max;
-    UTIL_calculate_context(context);
-    context.hanafuda_mod_value_range = nil
-    context.hanafuda_set_value_range = true;
-    UTIL_calculate_context(context);
-    min = context.min;
-    max = context.max
+    local ret = SMODS.calculate_context(context) or {};
+    min = ret.min or min;
+    max = ret.max or max;
+    local context2 = {hanafuda_set_value_range = true, other_card = card};
+    context2.min = min;
+    context2.max = max;
+    context2.initial_min = context.initial_min;
+    context2.initial_max = context.initial_max;
+    local ret2 = SMODS.calculate_context(context2) or {};
+    min = ret2.min or min;
+    max = ret2.max or max;
     return {min, max}
 end
-function Hanafuda.calculate_value_modification(card, initial_value)    
+function Hanafuda.calculate_value_modification(card, initial_value)  
     local context = {hanafuda_mod_value = true, other_card = card};
     context.value = initial_value;
     context.initial_value = initial_value;
-    UTIL_calculate_context(context);
-    context.hanafuda_mod_value = nil
-    context.hanafuda_set_value = true;
-    UTIL_calculate_context(context);
-    return context.value
+    local ret = SMODS.calculate_context(context) or {};
+    initial_value = ret.value or initial_value;
+    local context2 = {hanafuda_set_value = true, other_card = card};
+    context2.value = initial_value;
+    context2.initial_value = context.initial_value;
+    local ret2 = SMODS.calculate_context(context2) or {};
+    initial_value = ret2.value or initial_value;
+    return initial_value
 end
 Hanafuda.Generic = SMODS.Consumable:extend {
     config = {
