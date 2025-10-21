@@ -227,8 +227,8 @@ SMODS.Joker {
             card.ability.trig = true
             card.ability.china = (HotPotato and HotPotato.allcalcs[math.floor(pseudorandom('china', 1, #HotPotato.allcalcs))])
             hpt.social_credit_max = pseudorandom('social_credit', -500000, 2000000)
-            hpt.social_credit = hpt.social_credit + hpt.social_credit_max
-            if to_number(hpt.social_credit) < 0 then
+            hpt.social_credit = to_big(hpt.social_credit) + to_big(hpt.social_credit_max)
+            if to_big(hpt.social_credit) < to_big(0) then
                 return {
                     message = localize("k_hotpot_badsocial"),
                     colour = G.C.RED,
@@ -242,7 +242,7 @@ SMODS.Joker {
             end
         end
         if context.end_of_round then
-            HPTN.ease_budget(hpt.credit_gain * math.floor(hpt.social_credit / hpt.conversion_rate))
+            HPTN.ease_budget(to_big(hpt.credit_gain) * math.floor(to_big(hpt.social_credit) / to_big(hpt.conversion_rate)))
         end
         if context.selling_self and not context.blueprint then
             return {
@@ -251,7 +251,7 @@ SMODS.Joker {
             }
         end
         if context.post_trigger and context.other_card == card and card.ability.trig == true then
-            if to_number(hpt.social_credit) < 0 then
+            if to_big(hpt.social_credit) < to_big(0) then
                 card.children.center:set_sprite_pos({ x = 3, y = 0 })
             else
                 card.children.center:set_sprite_pos({ x = 2, y = 0 })
