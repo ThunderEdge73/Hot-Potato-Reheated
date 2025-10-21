@@ -231,7 +231,7 @@ end
 local ea = ease_ante
 function ease_ante(mod)
   ea(mod)
-  if mod > 0 then
+  if to_big(mod) >to_big(0) then
     PlinkoLogic.f.ante_up(mod)
   end
 end
@@ -268,13 +268,13 @@ function PlinkoLogic.f.change_roll_cost(new_val)
 end
 
 function PlinkoLogic.f.can_roll()
-  return G.GAME.plincoins >= G.GAME.current_round.plinko_roll_cost
+  return to_big(G.GAME.plincoins) >= to_big(G.GAME.current_round.plinko_roll_cost)
 end
 
 function PlinkoLogic.f.can_roll_dollars()
   local cost = G.GAME.current_round.plinko_roll_cost * G.GAME.plinko_dollars_cost
 
-  return not (((G.GAME.dollars-G.GAME.bankrupt_at) - cost < 0) and cost ~= 0)
+  return not ((to_big((G.GAME.dollars-G.GAME.bankrupt_at) - cost) < to_big(0)) and cost ~= 0)
 end
 
 function PlinkoLogic.f.handle_roll(use_dollars)

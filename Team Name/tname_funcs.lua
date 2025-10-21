@@ -474,7 +474,7 @@ function HPTN.ease_budget(amount, instant)
                     })
                 end
                 --Play a chip sound
-                if amount > 0 then
+                if amount > to_big(0) then
                     play_sound("hpot_tname_gaincred")
                 else
                     play_sound("hpot_tname_losecred")
@@ -505,7 +505,7 @@ end
 
 function HPTN.check_if_enough_budget(cost)
     local credits = G.GAME.budget
-    if (credits - cost) >= 0 then
+    if to_big(credits - cost) >= to_big(0) then
         return true
     end
     return false
@@ -523,7 +523,7 @@ end
 function add_round_eval_credits(config) --taken straight from plincoin.lua (yet again thank you to whoever added these)
     local config = config or {}
     local width = G.round_eval.T.w - 0.51
-    local num_dollars = config.credits or 1
+    local num_dollars = to_big(config.credits or 1)
     local scale = 0.9
 
     if not G.round_eval.divider_added then
@@ -585,7 +585,7 @@ function add_round_eval_credits(config) --taken straight from plincoin.lua (yet 
         end
     }))
     local dollar_row = 0
-    if num_dollars > 60 then
+    if num_dollars > to_big(60) then
         G.E_MANAGER:add_event(Event({
             trigger = 'before',
             delay = 0.38,
@@ -606,10 +606,10 @@ function add_round_eval_credits(config) --taken straight from plincoin.lua (yet 
             end
         }))
     else
-        for i = 1, num_dollars or 1 do
+        for i = 1, to_number(num_dollars or 1) do
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',
-                delay = 0.18 - ((num_dollars > 20 and 0.13) or (num_dollars > 9 and 0.1) or 0),
+                delay = 0.18 - ((num_dollars > to_big(20) and 0.13) or (num_dollars > to_big(9) and 0.1) or 0),
                 func = function()
                     if i % 30 == 1 then
                         G.round_eval:add_child(
@@ -617,9 +617,8 @@ function add_round_eval_credits(config) --taken straight from plincoin.lua (yet 
                             G.round_eval:get_UIE_by_ID('dollar_' .. config.name))
                         dollar_row = dollar_row + 1
                     end
-
-                    local r = { n = G.UIT.T, config = { text = "e", colour = {0.8, 0.45, 0.85, 1}, scale = ((num_dollars > 20 and 0.28) or (num_dollars > 9 and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true } }
-                    play_sound('coin3', 0.9 + 0.2 * math.random(), 0.7 - (num_dollars > 20 and 0.2 or 0))
+                    local r = { n = G.UIT.T, config = { text = "e", colour = {0.8, 0.45, 0.85, 1}, scale = ((num_dollars > to_big(20) and 0.28) or (num_dollars > to_big(9) and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true } }
+                    play_sound('coin3', 0.9 + 0.2 * math.random(), 0.7 - (num_dollars > to_big(20) and 0.2 or 0))
 
                     if config.name == 'blind1' then
                         G.GAME.current_round.dollars_to_be_earned = G.GAME.current_round.dollars_to_be_earned:sub(2)

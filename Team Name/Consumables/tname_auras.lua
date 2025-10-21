@@ -147,7 +147,7 @@ SMODS.Consumable({
 	loc_vars = function(self, info_queue, card)
 		local hpt = card.ability.extra
 		return {
-			vars = { hpt.leavinghands, hpt.credits, hpt.leavinghands > 1 and "s" or ""}
+			vars = { hpt.leavinghands, hpt.credits, to_number(hpt.leavinghands) > 1 and "s" or ""}
 		}
 	end,
 	can_use = function(self, card)
@@ -238,7 +238,7 @@ SMODS.Consumable({
 		}
 	end,
 	can_use = function(self, card)
-		return G.consumeables.config.card_limit - card.ability.extra.slots >= 0
+		return to_number(G.consumeables.config.card_limit - card.ability.extra.slots) >= 0
 	end,
 	use = function(self, card, area, copier)
 		local hpt = card.ability.extra
@@ -335,7 +335,7 @@ SMODS.Consumable({
 				return to_big(0)
 			end
 			local alpha = to_big(initial)
-			for i = 1, math.ceil(amount/initial) do
+			for i = 1, to_number(math.ceil(amount/initial)) do
 				alpha = alpha + initial + scaling * i
 				if alpha > amount then
 					return to_big(i)

@@ -162,7 +162,7 @@ function PissDrawer.Shop.currency_display()
             jank,
             not G.GAME.modifiers.hpot_plinko_4ever and {
                n=G.UIT.C,
-                config = { align = 'cm', minh = 0.6, minw = 0.6, colour = G.C.DYN_UI.BOSS_MAIN, r = 0.1, padding = 0.05, hover = true, button = 'open_exchange', func = 'can_open_exchange', button_dist = 0.1 },
+                config = { align = 'cm', minh = 0.6, minw = 0.6, outline = 1, outline_colour = G.C.BLUE, colour = G.C.DYN_UI.BOSS_MAIN, r = 0.1, padding = 0.05, hover = true, button = 'open_exchange', func = 'can_open_exchange', button_dist = 0.1, shadow = true, shadow_height = 0.25 },
                 nodes = {
                     {n=G.UIT.O, config = { object = Sprite(0, 0, 0.4, 0.4, G.ASSET_ATLAS['hpot_pissdrawer_shop_icons'], { x = 1, y = 0 }) } },
                 }
@@ -260,11 +260,15 @@ G.FUNCS.can_open_exchange = function(e)
     else
         e.config.button = "open_exchange"
     end
+    if not (PissDrawer.Shop.active_tab and PissDrawer.Shop.active_tab.exchange) then
+        e.config.outline_colour = G.C.BLUE
+    end
 end
 
 G.FUNCS.open_exchange = function(e)
     PissDrawer.Shop.active_tab = {exchange = e}
-    e.config.colour = lighten(G.C.DYN_UI.MAIN, 0.2)
+    e.config.colour = darken(G.C.BLUE, 0.2)
+    e.config.outline_colour = lighten(G.C.BLUE, 0.4)
     PissDrawer.Shop.change_shop_sign("hpot_pissdrawer_shop_sign_currency")
     PissDrawer.Shop.change_shop_panel(PissDrawer.Shop.currency_exchange)
 end
@@ -829,7 +833,7 @@ function PissDrawer.Shop.reload_shop_areas(keys)
                 if key == 'hp_jtem_delivery_queue' then
                     local temp_str = { str = (v.ability.hp_delivery_obj.rounds_passed .. "/" .. v.ability.hp_delivery_obj.rounds_total) }
                     local args = generate_currency_string_args(v.ability.hp_jtem_currency_bought)
-                    hpot_jtem_create_delivery_boxes(v, { { ref_table = temp_str, ref_value = 'str' } }, args)
+                    hpot_jtem_create_delivery_boxes(v, { { ref_table = temp_str, ref_value = 'str', object = v.ability.hp_delivery_obj } }, args)
                 elseif key == 'hp_jtem_delivery_special_deals' then
                     local args = generate_currency_string_args(v.ability.hp_jtem_currency_bought)
                     hpot_jtem_create_special_deal_boxes(v, {{prefix = args.symbol, ref_table = v.ability, ref_value = "hp_jtem_currency_bought_value"}}, args)
@@ -1657,7 +1661,7 @@ function G.FUNCS.toggle_plinko_cost(e)
 end
 
 function G.FUNCS.handle_plinko_colour(e)
-    e.config.active = not PissDrawer.Shop.reset_plinko_counter and (3 - (G.GAME.current_round.plinko_rolls % 3)) >= e.config.cost_up
+    e.config.active = not PissDrawer.Shop.reset_plinko_counter and (3 - (G.GAME.current_round.plinko_rolls % 3)) >= to_number(e.config.cost_up)
     e.config.colour = PissDrawer.Shop.plinko_dollars and G.C.GOLD or SMODS.Gradients.hpot_plincoin
     e.config.colour = e.config.active and e.config.colour or G.C.BLACK
 end
@@ -1760,7 +1764,7 @@ function PissDrawer.Shop.wheel()
 end
 
 function G.FUNCS.handle_wheel_colour(e)
-    e.config.active = not PissDrawer.Shop.reset_wheel_counter and (2 - (Wheel.cost_up % 2)) >= e.config.cost_up
+    e.config.active = not PissDrawer.Shop.reset_wheel_counter and (2 - (Wheel.cost_up % 2)) >= to_number(e.config.cost_up)
     e.config.colour = {0.8, 0.45, 0.85, 1}
     e.config.colour = e.config.active and e.config.colour or G.C.BLACK
 end

@@ -991,7 +991,7 @@ in_pool = function(self, args)
 
     use = function(self, card, area, copier)
         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-            for i=1, math.min(card.ability.extra[card.ability.extra.chosen],G.consumeables.config.card_limit - (#G.consumeables.cards + G.GAME.consumeable_buffer)) do
+            for i=1, to_number(math.min(card.ability.extra[card.ability.extra.chosen],G.consumeables.config.card_limit - (#G.consumeables.cards + G.GAME.consumeable_buffer))) do
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
                 func = (function()
@@ -1445,7 +1445,7 @@ in_pool = function(self, args)
     end,
 
     use = function(self, card, area, copier)
-        if G.GAME.plincoins > 0 then
+        if to_big(G.GAME.plincoins) > to_big(0) then
             ease_plincoins(math.min(card.ability.extra[card.ability.extra.chosen], G.GAME.plincoins))
         else
             nope(card)

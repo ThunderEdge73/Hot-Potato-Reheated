@@ -9,12 +9,11 @@
 	"priority": -100000001,
 	"badge_colour": "#f5e27a",
 	"badge_text_colour": "#ffffff",
-	"version": "1.0.3",
+	"version": "1.0.4-pre3",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-1016c)"
 	],
     "conflicts": [
-        "Talisman",
         "SlayTheJokers"
     ]
 }

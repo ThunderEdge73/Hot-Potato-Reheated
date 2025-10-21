@@ -859,7 +859,7 @@ HotPotato.EventStep {
 					end
 				end,
 				func = function()
-					return G.GAME.spark_points >= 25000
+					return to_big(G.GAME.spark_points) >= to_big(25000)
 				end,
 			},
 		}
@@ -889,7 +889,7 @@ HotPotato.EventStep {
 					end
 				end,
 				func = function()
-					return G.GAME.spark_points > 25000
+					return G.GAME.spark_points > to_big(25000)
 				end,
 			},
 		}
@@ -1249,7 +1249,7 @@ HotPotato.EventStep({
 					event.start_step("hpot_sticker_success")
 				end,
 				func = function()
-					return sticker_check(G.jokers.cards) > 0 and G.GAME.plincoins >= self.config.extra.cost
+					return sticker_check(G.jokers.cards) > 0 and to_big(G.GAME.plincoins) >= to_big(self.config.extra.cost)
 				end,
 			},
 			{
@@ -1786,7 +1786,7 @@ HotPotato.EventStep {
 					event.start_step("hpot_mb_2")
 				end,
 				func = function()
-					return G.GAME.budget_text > 5
+					return to_big(G.GAME.credits_text) > to_big(5)
 				end,
 			},
 		}
@@ -2669,7 +2669,7 @@ HotPotato.EventScenario {
 		team = { "Pissdrawer" },
 	},
 	in_pool = function(self)
-		return tonumber(G.GAME.budget_text) >= 100 and not G.GAME.hpot_event_triboulet_invested and
+		return to_number(G.GAME.credits_text) >= 100 and not G.GAME.hpot_event_triboulet_invested and
 			not G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested
 	end
 }
@@ -2700,7 +2700,7 @@ HotPotato.EventStep {
 					event.start_step("hpot_business_venture_1_finish")
 				end,
 				func = function()
-					return tonumber(G.GAME.budget_text) >= 100
+					return to_number(G.GAME.budget_text) >= 100
 				end
 			},
 			{
@@ -2712,7 +2712,7 @@ HotPotato.EventStep {
 					event.start_step("hpot_business_venture_1_finish")
 				end,
 				func = function()
-					return tonumber(G.GAME.budget_text) >= 500
+					return to_number(G.GAME.budget_text) >= 500
 				end
 			},
 			{
@@ -2724,7 +2724,7 @@ HotPotato.EventStep {
 					event.start_step("hpot_business_venture_1_finish")
 				end,
 				func = function()
-					return tonumber(G.GAME.budget_text) >= 1000
+					return to_number(G.GAME.budget_text) >= 1000
 				end
 			},
 			moveon()
@@ -2839,7 +2839,7 @@ HotPotato.EventScenario {
 		team = { "Pissdrawer" },
 	},
 	in_pool = function(self)
-		return tonumber(G.GAME.budget_text) <= -100 and not G.GAME.hpot_event_triboulet_invested and
+		return to_number(G.GAME.credits_text) <= -100 and not G.GAME.hpot_event_triboulet_invested and
 			not G.PROFILES[G.SETTINGS.profile].hpot_event_triboulet_invested
 	end
 }
@@ -5600,7 +5600,7 @@ HotPotato.EventStep {
 					ease_currency("dollars", 1)
 				end,
 				func = function()
-					return get_currency_amount("joker_exchange") >= 10000
+					return to_big(get_currency_amount("joker_exchange")) >= to_big(10000)
 				end
 			},
 			{
@@ -5610,7 +5610,7 @@ HotPotato.EventStep {
 					ease_currency("dollars", 5)
 				end,
 				func = function()
-					return get_currency_amount("plincoin") >= 1
+					return to_big(get_currency_amount("plincoin")) >= to_big(1)
 				end
 			},
 			{
@@ -5620,7 +5620,7 @@ HotPotato.EventStep {
 					ease_currency("dollars", 5)
 				end,
 				func = function()
-					return get_currency_amount("budget") >= 100
+					return to_big(get_currency_amount("budget")) >= to_big(100)
 				end
 			},
 			{
@@ -5630,7 +5630,7 @@ HotPotato.EventStep {
 					ease_currency("dollars", 10)
 				end,
 				func = function()
-					return get_currency_amount("crypto") >= 1
+					return to_big(get_currency_amount("crypto")) >= to_big(1)
 				end
 			},
 			{
@@ -5844,7 +5844,7 @@ HotPotato.EventStep {
 					ease_currency("dollars", 20)
 				end,
 				func = function()
-					return get_currency_amount("crypto") >= 1
+					return to_big(get_currency_amount("crypto")) >= to_big(1)
 				end
 			},
 			{
@@ -5854,7 +5854,7 @@ HotPotato.EventStep {
 					ease_currency("joker_exchange", 100000)
 				end,
 				func = function()
-					return get_currency_amount("crypto") >= 1
+					return to_big(get_currency_amount("crypto")) >= to_big(1)
 				end
 			},
 			{
@@ -5864,7 +5864,7 @@ HotPotato.EventStep {
 					ease_currency("plincoin", 6)
 				end,
 				func = function()
-					return get_currency_amount("crypto") >= 1
+					return to_big(get_currency_amount("crypto")) >= to_big(1)
 				end
 			},
 			{
@@ -5874,7 +5874,7 @@ HotPotato.EventStep {
 					ease_currency("budget", 90)
 				end,
 				func = function()
-					return get_currency_amount("crypto") >= 1
+					return to_big(get_currency_amount("crypto")) >= to_big(1)
 				end
 			},
 			{
@@ -5894,7 +5894,7 @@ HotPotato.EventStep {
 					ease_currency("crypto", 1)
 				end,
 				func = function()
-					return get_currency_amount("joker_exchange") >= 300000
+					return to_big(get_currency_amount("joker_exchange")) >= to_big(300000)
 				end
 			},
 			{
@@ -5904,7 +5904,7 @@ HotPotato.EventStep {
 					ease_currency("crypto", 1)
 				end,
 				func = function()
-					return get_currency_amount("plincoin") >= 6
+					return to_big(get_currency_amount("plincoin")) >= to_big(6)
 				end
 			},
 			{
@@ -5914,7 +5914,7 @@ HotPotato.EventStep {
 					ease_currency("crypto", 1)
 				end,
 				func = function()
-					return get_currency_amount("budget") >= 600
+					return to_big(get_currency_amount("budget")) >= to_big(600)
 				end
 			},
 			{

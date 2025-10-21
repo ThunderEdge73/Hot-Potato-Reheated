@@ -13,6 +13,13 @@ function Card:calculate_plincoin_bonus_delayed(dollars)
         return obj:calc_plincoin_bonus_delayed(self, dollars)
     end
 end
+function Card:calculate_crypto_bonus()
+    if not self:can_calculate() then return end
+    local obj = self.config.center
+    if obj.calc_crypto_bonus and type(obj.calc_crypto_bonus) == 'function' then
+        return obj:calc_crypto_bonus(self)
+    end
+end
 --#region Spark point stuff
 function Card:calculate_spark_point_bonus()
     if not self:can_calculate() then return end
@@ -24,7 +31,7 @@ end
 function add_round_eval_spark_points(config)
     local config = config or {}
     local width = G.round_eval.T.w - 0.51
-    local num_dollars = config.spark_points or 1
+    local num_dollars = to_big(config.spark_points or 1)
     local scale = 0.9
     
     if not G.round_eval.divider_added then
@@ -68,7 +75,7 @@ function add_round_eval_spark_points(config)
             end
         }))
         local dollar_row = 0
-        if num_dollars > 60 then
+        if num_dollars > to_big(60) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',delay = 0.38,
                 func = function()
@@ -84,9 +91,9 @@ function add_round_eval_spark_points(config)
                 end
             }))
         else
-            for i = 1, num_dollars or 1 do
+            for i = 1, to_number(num_dollars or 1) do
                 G.E_MANAGER:add_event(Event({
-                    trigger = 'before',delay = 0.18 - ((num_dollars > 20 and 0.13) or (num_dollars > 9 and 0.1) or 0),
+                    trigger = 'before',delay = 0.18 - ((num_dollars > to_big(20) and 0.13) or (num_dollars > to_big(9) and 0.1) or 0),
                     func = function()
                         if i%30 == 1 then 
                             G.round_eval:add_child(
@@ -95,8 +102,8 @@ function add_round_eval_spark_points(config)
                                 dollar_row = dollar_row+1
                         end
 
-                        local r = {n=G.UIT.T, config={text = localize('hotpot_reforge_sparks'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.BLUE, scale = ((num_dollars > 20 and 0.28) or (num_dollars > 9 and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true}}
-                        play_sound('coin3', 0.9+0.2*math.random(), 0.7 - (num_dollars > 20 and 0.2 or 0))
+                        local r = {n=G.UIT.T, config={text = localize('hotpot_reforge_sparks'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.BLUE, scale = ((num_dollars > to_big(20) and 0.28) or (num_dollars > to_big(9) and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true}}
+                        play_sound('coin3', 0.9+0.2*math.random(), 0.7 - (num_dollars > to_big(20) and 0.2 or 0))
                         
                         if config.name == 'blind1' then 
                             G.GAME.current_round.dollars_to_be_earned = G.GAME.current_round.dollars_to_be_earned:sub(2)
@@ -126,7 +133,7 @@ end
 function add_round_eval_credits(config)
     local config = config or {}
     local width = G.round_eval.T.w - 0.51
-    local num_dollars = config.credits or 1
+    local num_dollars = to_big(config.credits or 1)
     local scale = 0.9
     
     if not G.round_eval.divider_added then
@@ -170,7 +177,7 @@ function add_round_eval_credits(config)
             end
         }))
         local dollar_row = 0
-        if num_dollars > 60 then
+        if num_dollars > to_big(60) then
             G.E_MANAGER:add_event(Event({
                 trigger = 'before',delay = 0.38,
                 func = function()
@@ -186,9 +193,9 @@ function add_round_eval_credits(config)
                 end
             }))
         else
-            for i = 1, num_dollars or 1 do
+            for i = 1, to_number(num_dollars or 1) do
                 G.E_MANAGER:add_event(Event({
-                    trigger = 'before',delay = 0.18 - ((num_dollars > 20 and 0.13) or (num_dollars > 9 and 0.1) or 0),
+                    trigger = 'before',delay = 0.18 - ((num_dollars > to_big(20) and 0.13) or (num_dollars > to_big(9) and 0.1) or 0),
                     func = function()
                         if i%30 == 1 then 
                             G.round_eval:add_child(
@@ -197,8 +204,8 @@ function add_round_eval_credits(config)
                                 dollar_row = dollar_row+1
                         end
 
-                        local r = {n=G.UIT.T, config={text = localize('hotpot_reforge_sparks'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.MONEY, scale = ((num_dollars > 20 and 0.28) or (num_dollars > 9 and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true}}
-                        play_sound('coin3', 0.9+0.2*math.random(), 0.7 - (num_dollars > 20 and 0.2 or 0))
+                        local r = {n=G.UIT.T, config={text = localize('hotpot_reforge_sparks'), font = SMODS.Fonts.hpot_plincoin, colour = G.C.MONEY, scale = ((num_dollars > to_big(20) and 0.28) or (num_dollars > to_big(9) and 0.43) or 0.58), shadow = true, hover = true, can_collide = false, juice = true}}
+                        play_sound('coin3', 0.9+0.2*math.random(), 0.7 - (num_dollars > to_big(20) and 0.2 or 0))
                         
                         if config.name == 'blind1' then 
                             G.GAME.current_round.dollars_to_be_earned = G.GAME.current_round.dollars_to_be_earned:sub(2)
