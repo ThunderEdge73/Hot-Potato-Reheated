@@ -1,7 +1,7 @@
 function ease_credits(amount, instant) -- DONT USE THIS OUTSIDE OF A RUN (maybe i should have just embedded this into aura of powers use function but oh well)
-    amount = amount or 0
-    if ExtraCredit and (amount > 0) then
-        amount = amount * 3
+    amount = to_big(amount or 0)
+    if ExtraCredit and (to_big(amount) > 0) then
+        amount = amount * to_big(3)
     end
     local function _mod(mod) -- Taken from ease_plincoins()
         local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
@@ -13,7 +13,7 @@ function ease_credits(amount, instant) -- DONT USE THIS OUTSIDE OF A RUN (maybe 
             col = G.C.RED
         end
 
-        G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameCredits + amount
+        G.PROFILES[G.SETTINGS.profile].TNameCredits = to_big(G.PROFILES[G.SETTINGS.profile].TNameCredits) + to_big(amount)
 
         if amount ~= 0 then
             attention_text({
