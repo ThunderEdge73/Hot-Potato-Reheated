@@ -6,12 +6,41 @@ SMODS.ConsumableType({
 	shop_rate = 0.09,
 })
 
+local old_SMODS_update_context_flags = SMODS.update_context_flags
+function SMODS.update_context_flags(context, flags)
+    if context.hanafuda_mod_value_range or context.hanafuda_set_value_range then
+        if flags.min then context.min = flags.min end
+        if flags.max then context.max = flags.max end
+    end
+    if context.hanafuda_mod_value or context.hanafuda_set_value then
+        if flags.value then context.value = flags.value end
+    end
+    return old_SMODS_update_context_flags(context, flags)
+end
 Hanafuda = {}
 function Hanafuda.calculate_value_range(card, min, max)
-    return {min, max} -- don't do anything with this now this is just a hook point
+    local context = {hanafuda_mod_value_range = true, other_card = card};
+    context.min = min;
+    context.max = max;
+    context.initial_min = min;
+    context.initial_max = max;
+    UTIL_calculate_context(context);
+    context.hanafuda_mod_value_range = nil
+    context.hanafuda_set_value_range = true;
+    UTIL_calculate_context(context);
+    min = context.min;
+    max = context.max
+    return {min, max}
 end
-function Hanafuda.calculate_value_modification(card, initial_value)
-    return initial_value -- don't do anything with this now this is just a hook point
+function Hanafuda.calculate_value_modification(card, initial_value)    
+    local context = {hanafuda_mod_value = true, other_card = card};
+    context.value = initial_value;
+    context.initial_value = initial_value;
+    UTIL_calculate_context(context);
+    context.hanafuda_mod_value = nil
+    context.hanafuda_set_value = true;
+    UTIL_calculate_context(context);
+    return context.value
 end
 Hanafuda.Generic = SMODS.Consumable:extend {
     config = {
@@ -487,8 +516,9 @@ Hanafuda.Generic({
 				area = G.consumeables,
 				edition = "e_negative",
 			})
-			if result.config.center_key:find('bush_clover') then
-				if tonumber(result.config.center_key:sub(-1)) < tonumber(card.config.center_key:sub(-1)) and tonumber(result.config.center_key:sub(-1)) < 3 then
+            result.config.center:update(result);
+			if result.config.center_key == 'c_hpot_bush_clover' then
+				if result.ability.value > card.ability.value then
 					check_for_unlock({type = 'whoppers'})
 				end
 			end
