@@ -55,32 +55,39 @@ return {
             },
         },
         Hanafuda = {
+            c_hpot_pine_generic = {
+                name = "Pines",
+                text = {
+                    "Apply {C:attention}Fragile{} or {C:attention}Uranium{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Fragile{} or {C:attention}Uranium{} if they were already present"
+                }
+            },
             c_hpot_pine_1 = {
                 name = "Crane (Pine)",
                 text = {
-                    "Apply or Remove {C:attention}Fragile{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Fragile{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Fragile{} if it was already present"
                 }
             },
             c_hpot_pine_2 = {
                 name = "Poetry Ribbon (Pine)",
                 text = {
-                    "Apply or Remove {C:attention}Fragile{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Fragile{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Fragile{} if it was already present"
                 }
             },
             c_hpot_pine_3 = {
                 name = "Pine Plain",
                 text = {
-                    "Apply or Remove a {C:attention}Uranium{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}Uranium{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Uranium{} if it was already present"
                 }
             },
             c_hpot_pine_4 = {
                 name = "Pine Plain",
                 text = {
-                    "Apply or Remove a {C:attention}Uranium{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}Uranium{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Uranium{} if it was already present"
                 }
             },
 
@@ -90,32 +97,39 @@ return {
 
 
 
+            c_hpot_sakura_generic = {
+                name = "Cherry Blossom",
+                text = {
+                    "Apply {C:attention}Spore{} or {C:attention}C4{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Spore{} and {C:attention}C4{} if they were already present"
+                }
+            },
             c_hpot_sakura_1 = {
                 name = "Curtain (Cherry Blossom)",
                 text = {
-                    "Apply or Remove {C:attention}Spore{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Spore{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Spore{} if it was already present"
                 }
             },
             c_hpot_sakura_2 = {
                 name = "Poetry Ribbon (Cherry Blossom)",
                 text = {
-                    "Apply or Remove {C:attention}Spore{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Spore{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Spore{} if it was already present"
                 }
             },
             c_hpot_sakura_3 = {
                 name = "Cherry Blossom Plain",
                 text = {
-                    "Apply or Remove a {C:attention}C4{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}C4{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}C4{} if it was already present"
                 }
             },
             c_hpot_sakura_4 = {
                 name = "Cherry Blossom Plain",
                 text = {
-                    "Apply or Remove a {C:attention}C4{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}C4{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}C4{} if it was already present"
                 }
             },
 
@@ -330,61 +344,75 @@ return {
                 }
             },
 
+            c_hpot_willow_generic = {
+                name = "Willow",
+                text = {
+                    "Apply {C:attention}Redirect{} or {C:attention}Cannibal{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Redirect{} and {C:attention}Cannibal{} if it was already present"
+                }
+            },
             c_hpot_willow_1 = {
                 name = "Rain Man (Willow)",
                 text = {
-                    "Apply or Remove {C:attention}Redirect{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Redirect{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Redirect{} if it was already present"
                 }
             },
             c_hpot_willow_2 = {
                 name = "Swallow (Willow)",
                 text = {
-                    "Apply or Remove {C:attention}Redirect{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Redirect{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Redirect{} if it was already present"
                 }
             },
             c_hpot_willow_3 = {
                 name = "Plain Ribbon (Willow)",
                 text = {
-                    "Apply or Remove {C:attention}Cannibal{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Cannibal{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Cannibal{} if it was already present"
                 }
             },
             c_hpot_willow_4 = {
                 name = "Willow Plain",
                 text = {
-                    "Apply or Remove {C:attention}Cannibal{} sticker",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Cannibal{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Cannibal{} if it was already present"
                 }
             },
 
+            c_hpot_paulownia_generic = {
+                name = "Paulownia",
+                text = {
+                    "Apply {C:attention}Overclock{} or {C:attention}Rage{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Overclock{} and {C:attention}Rage{} if they were already present"
+                }
+            },
             c_hpot_paulownia_1 = {
                 name = "Phoenix (Paulownia)",
                 text = {
-                    "Apply or Remove {C:attention}Overclock{} stickers",
-                    "from {C:attention}#1#{} selected cards"
+                    "Apply {C:attention}Overclock{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Overclock{} if it was already present"
                 }
             },
             c_hpot_paulownia_2 = {
                 name = "Paulownia Plain",
                 text = {
-                    "Apply or Remove an {C:attention}Overclock{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}Overclock{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Overclock{} if it was already present"
                 }
             },
             c_hpot_paulownia_3 = {
                 name = "Paulownia Plain",
                 text = {
-                    "Apply or Remove a {C:attention}Rage{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}Rage{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Rage{} if it was already present"
                 }
             },
             c_hpot_paulownia_4 = {
                 name = "Paulownia Plain",
                 text = {
-                    "Apply or Remove a {C:attention}Rage{} sticker",
-                    "from {C:attention}#1#{} selected card"
+                    "Apply {C:attention}Rage{} to #1# cards,",
+                    "or {C:red}remove{} {C:attention}Rage{} if it was already present"
                 }
             },
         },

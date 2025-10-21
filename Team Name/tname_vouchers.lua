@@ -11,7 +11,7 @@ SMODS.Voucher {
 		}
 	end,
 	redeem = function(self, voucher)
-		G.GAME.modifiers.interest_to_credits = true
+		G.GAME.modifiers.interest_to_budget = true
 	end,
 	hotpot_credits = {
         art = {'GhostSalt'},
@@ -33,7 +33,7 @@ SMODS.Voucher {
 		}
 	end,
 	redeem = function(self, voucher)
-		G.GAME.modifiers.hands_to_credits = true
+		G.GAME.modifiers.hands_to_budget = true
 	end,
 	requires = {
 		'v_hpot_digital_payment'
