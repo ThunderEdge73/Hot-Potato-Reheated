@@ -474,7 +474,7 @@ function HPTN.ease_budget(amount, instant)
                     })
                 end
                 --Play a chip sound
-                if amount > to_big(0) then
+                if amount > to_number(0) then
                     play_sound("hpot_tname_gaincred")
                 else
                     play_sound("hpot_tname_losecred")

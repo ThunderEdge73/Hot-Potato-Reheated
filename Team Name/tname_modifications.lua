@@ -241,6 +241,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xmult = 1.5 }, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -258,18 +259,9 @@ HPTN.Modification({
 	morality = "GOOD",
 	badge_colour = HEX("4bc292"),
 	calculate = function(self, card, context)
-		if context.post_trigger and context.other_card == card then
-			if context.pseudorandom_result then
-				if context.result then
-					card.modif_delay = true
-				end
-			elseif not context.mod_probability and not context.fix_probability and hand_chips then
-				SMODS.calculate_effect({ dollars = 2 }, card)
-			end
-		end
-		if context.main_scoring and card.modif_delay then
+		if context.post_trigger and context.other_card == card and not context.other_context.mod_probability and not context.other_context.fix_probability then
 			SMODS.calculate_effect({ dollars = 2 }, card)
-			card.modif_delay = nil
+
 		end
 	end,
 	hotpot_credits = {
@@ -292,6 +284,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xmult = 1.3 }, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -361,7 +354,7 @@ HPTN.Modification({
 		}
 	end,
 	calculate = function(self, card, context)
-		if context.post_trigger and context.other_card == card then
+		if context.post_trigger and context.other_card == card and not context.other_context.mod_probability and not context.other_context.fix_probability then
 			if SMODS.pseudorandom_probability(card, "hpot_damaged", 1, 5) then
 				SMODS.destroy_cards(card)
 			end
@@ -406,6 +399,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xmult = 1.1 }, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -454,6 +448,7 @@ HPTN.Modification({
 
 reset_hyper = function()
     for k, v in pairs(G.jokers.cards) do
+		if not v.ability.hpot_blunder then
         if v.ability["modif_hpot_hyper"] then
             if v.prevent_trigger then
                 v.prevent_trigger = nil
@@ -469,6 +464,7 @@ reset_hyper = function()
 			end
         end
     end
+end
 end
 
 HPTN.Modification({
@@ -533,6 +529,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xmult = 0.9}, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -581,10 +578,6 @@ HPTN.Modification({
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ mult = 10}, card)
 		end
-		if context.main_scoring and card.modif_delay then
-			card.modif_delay = nil
-			return { mult = 10 }
-		end
 	end,
 	hotpot_credits = {
 		idea = { "lord.ruby" },
@@ -605,6 +598,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ chips = 50}, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -626,6 +620,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xchips = 1.2}, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -647,6 +642,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xchips = 1.5 }, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -669,6 +665,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ mult = -5}, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -691,6 +688,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ xchips = 0.8}, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
@@ -713,6 +711,7 @@ HPTN.Modification({
 		end
 		if context.final_scoring_step and card.trigger_modif then
 			SMODS.calculate_effect({ chips = -25}, card)
+			card.trigger_modif = nil
 		end
 	end,
 	hotpot_credits = {
