@@ -24,7 +24,7 @@ SMODS.Consumable({
 	},
 	config = {
 		extra = {
-			credits = 70
+			credits = 30
 		},
 	},
 	loc_vars = function(self, info_queue, card)
