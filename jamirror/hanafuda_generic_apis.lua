@@ -115,9 +115,7 @@ Hanafuda.Generic = SMODS.Consumable:extend {
         }
     end,
     set_sprites = function (self, card, front)
-        if card.area and (not card.area.config.collection) then
-            card.children.center:set_sprite_pos(self.positions[((card.ability or {}).immutable or {}).selected or 1])
-        end
+        card.children.center:set_sprite_pos(self.positions[((card.ability or {}).immutable or {}).selected or 1])
     end,
 	calculate = function (self, card, context)
 		return joy_hanafuda_score(self.joyousspring[card.ability.immutable.selected], context)
