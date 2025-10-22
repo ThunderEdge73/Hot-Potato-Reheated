@@ -29,11 +29,11 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     return update_consumable(card)
 end
 function change_max_highlight(amount) --modifies the max_highlighted_mod variable and updates all existing consumables automatically
-    if to_number(G.GAME.max_highlighted_mod) > 0 then
+    if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
         G.hand.config.highlighted_limit = G.hand.config.highlighted_limit - G.GAME.max_highlighted_mod
     end
     G.GAME.max_highlighted_mod = (G.GAME.max_highlighted_mod or 0) + amount
-    if to_number(G.GAME.max_highlighted_mod) > 0 then
+    if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
         G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + G.GAME.max_highlighted_mod
     end
     for _, card in pairs(G.I.CARD) do
@@ -167,7 +167,7 @@ SMODS.Consumable:take_ownership('lovers',
     config = { max_highlighted = 1, mod_conv = 'm_wild' },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -183,7 +183,7 @@ SMODS.Consumable:take_ownership('chariot',
     config = { max_highlighted = 1, mod_conv = 'm_steel' },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -199,7 +199,7 @@ SMODS.Consumable:take_ownership('justice',
     config = { max_highlighted = 1, mod_conv = 'm_glass' },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -323,6 +323,15 @@ SMODS.Consumable:take_ownership('death',
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
         if card.ability.max_highlighted >= 3 then
             info_queue[#info_queue + 1] = { set = "Other", key = "hpot_death_clarification_plus"}
+            if G.hand then
+                if (#G.hand.cards >= 1) then
+                    if math.floor(card.ability.max_highlighted) > #G.hand.cards then
+                        info_queue[#info_queue + 1] = { set = "Other", key = "hpot_death_clarification_big"}
+                    end
+                elseif math.floor(card.ability.max_highlighted) > math.floor(G.hand.config.card_limit) then
+                    info_queue[#info_queue + 1] = { set = "Other", key = "hpot_death_clarification_big"}
+                end
+            end
         elseif card.ability.max_highlighted <= 1 then
             key = key .. "_s"
             info_queue[#info_queue + 1] = { set = "Other", key = "hpot_death_clarification_minus"}
@@ -396,7 +405,7 @@ SMODS.Consumable:take_ownership('death',
         delay(0.5)
     end,
     can_use = function(self, card)
-        return G.hand and #G.hand.highlighted == card.ability.max_highlighted
+        return G.hand and (#G.hand.highlighted == math.floor(card.ability.max_highlighted) or #G.hand.highlighted == #G.hand.cards)
     end
     }
 , true)
@@ -405,7 +414,7 @@ SMODS.Consumable:take_ownership('devil',
     config = { max_highlighted = 1, mod_conv = 'm_gold' },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -421,7 +430,7 @@ SMODS.Consumable:take_ownership('tower',
     config = { max_highlighted = 1, mod_conv = 'm_stone' },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
@@ -561,7 +570,7 @@ SMODS.Consumable:take_ownership('talisman',
     config = { extra = { seal = 'Gold' }, max_highlighted = 1 },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
@@ -603,7 +612,7 @@ SMODS.Consumable:take_ownership('aura',
     config = { max_highlighted = 1 },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_CENTERS.e_foil
@@ -634,7 +643,7 @@ SMODS.Consumable:take_ownership('deja_vu',
     config = { extra = { seal = 'Red' }, max_highlighted = 1 },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
@@ -676,7 +685,7 @@ SMODS.Consumable:take_ownership('trance',
     config = { extra = { seal = 'Blue' }, max_highlighted = 1 },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
@@ -718,7 +727,7 @@ SMODS.Consumable:take_ownership('medium',
     config = { extra = { seal = 'Purple' }, max_highlighted = 1 },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         info_queue[#info_queue + 1] = G.P_SEALS[card.ability.extra.seal]
@@ -760,7 +769,7 @@ SMODS.Consumable:take_ownership('cryptid',
     config = { max_highlighted = 1, extra = { cards = 2 } },
     loc_vars = function(self, info_queue, card)
         local key = self.key .. "_v2"
-        if to_number(G.GAME.max_highlighted_mod) > 0 then
+        if G.GAME.max_highlighted_mod and to_number(G.GAME.max_highlighted_mod) > 0 then
             key = key .. "_p"
         end
         return { key = key, vars = { card.ability.extra.cards, card.ability.max_highlighted } }
