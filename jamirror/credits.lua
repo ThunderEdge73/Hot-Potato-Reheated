@@ -12,9 +12,12 @@ function ease_credits(amount, instant) -- DONT USE THIS OUTSIDE OF A RUN (maybe 
             text = '-c.'
             col = G.C.RED
         end
-
-        G.PROFILES[G.SETTINGS.profile].TNameCredits = to_big(G.PROFILES[G.SETTINGS.profile].TNameCredits) + to_big(amount)
-
+        G.PROFILES[G.SETTINGS.profile].TNameActualCredits = to_big(G.PROFILES[G.SETTINGS.profile].TNameCredits) + to_big(amount)
+        G.PROFILES[G.SETTINGS.profile].TNameSafeCredits = to_number(G.PROFILES[G.SETTINGS.profile].TNameCredits)
+        if G.PROFILES[G.SETTINGS.profile].TNameSafeCredits == 1/0 then
+            G.PROFILES[G.SETTINGS.profile].TNameSafeCredits = 1e308
+        end
+        G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameActualCredits
         if amount ~= 0 then
             attention_text({
                 text = text .. tostring(math.abs(mod)),
@@ -67,4 +70,14 @@ end
 function G.FUNCS.RUN_SETUP_credit(e)
     e.config.object:remove()
     e.config.object = G.UIDEF.RUN_SETUP_credit(e)
+end
+
+local start_up_hook = Game.start_up
+function Game:start_up()
+    start_up_hook(self)
+    if (not Talisman or Talisman.config_file.break_infinity ~= "omeganum") and type(G.PROFILES[G.SETTINGS.profile].TNameCredits) == "table" then
+        G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameSafeCredits
+    else
+        G.PROFILES[G.SETTINGS.profile].TNameCredits = G.PROFILES[G.SETTINGS.profile].TNameActualCredits
+    end
 end
