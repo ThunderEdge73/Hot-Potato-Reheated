@@ -803,7 +803,7 @@ return {
                 ['name'] = 'Handful',
                 ['text'] = {
                     [1] = "Gain {C:hpot_plincoin,f:hpot_plincoin}${C:hpot_plincoin}#1#{},",
-                    [2] = "{C:red}-#2#{} Hand for one round"
+                    [2] = "{C:red}-#2#{} Hands for one round",
                 }
             },
             c_hpot_czech_republic = {

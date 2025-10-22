@@ -1200,7 +1200,7 @@ SMODS.Consumable { --Handful
     config = {
         extra = {
             plincoins = 10,
-            hands = 1
+            hands = 2
         }
     },
     unlocked = true,
@@ -1219,7 +1219,7 @@ SMODS.Consumable { --Handful
     },
 
     can_use = function(self, card)
-        return true
+        return G.GAME.current_round.hands_left > card.ability.extra.hands
     end,
 
     use = function(self, card, area, copier)
