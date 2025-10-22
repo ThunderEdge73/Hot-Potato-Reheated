@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="800" height="345" alt="hotpotlogo" src="https://github.com/user-attachments/assets/fea511c2-9b8d-4df6-a868-1323a1678d54" />
+  <img width="720" height="480" alt="hotpotlogo" src="hp_reheated.png" />
 </p>
 
 
