@@ -330,7 +330,8 @@ return {
             c_hpot_chrysanthemum_1 = {
                 name = "Sake (Chrysanthemum)",
                 text = {
-                    "Give a random",
+                    "{C:green}#2# in #3#{} Chance to",
+                    "give a random",
                     "{C:attention}Good modification{} to",
                     "{C:attention}#1#{} selected Joker(s)"
                 }
@@ -338,7 +339,8 @@ return {
             c_hpot_chrysanthemum_2 = {
                 name = "Blue Ribbon (Chrysanthemum)",
                 text = {
-                    "Give a random",
+                    "{C:green}#2# in #3#{} Chance to",
+                    "give a random",
                     "{C:attention}Good modification{} to",
                     "{C:attention}#1#{} selected Joker(s)"
                 }
@@ -346,7 +348,8 @@ return {
             c_hpot_chrysanthemum_3 = {
                 name = "Chrysanthemum Plain",
                 text = {
-                    "Give a random",
+                    "{C:green}#2# in #3#{} Chance to",
+                    "give a random",
                     "{C:attention}Good modification{} to",
                     "{C:attention}#1#{} selected Joker(s)"
                 }
@@ -354,7 +357,8 @@ return {
             c_hpot_chrysanthemum_4 = {
                 name = "Chrysanthemum Plain",
                 text = {
-                    "Give a random",
+                    "{C:green}#2# in #3#{} Chance to",
+                    "give a random",
                     "{C:attention}Good modification{} to",
                     "{C:attention}#1#{} selected Joker(s)"
                 }
@@ -842,6 +846,12 @@ return {
             },
         },
         Joker = {
+            j_joker = {
+                name = 'Joker',
+                text = {
+                    '{C:attention}Revives{} one character'
+                }
+            },
             j_hpot_hc_trackmania = {
                 name = "Trackmania",
                 text = {
@@ -3640,7 +3650,7 @@ return {
                 text = {
                     "{C:green}#1# in 2{} Chance to",
                     "apply Spore to {C:attention}adjacent{} cards",
-                    "when in hand",
+                    "when present.",
                     "{C:red}Destroyed{} if adjacent cards",
                     "all have Spore"
                 }
@@ -6527,6 +6537,40 @@ return {
                 "2 Double Tags",
                 "$8",
                 "85 budget",
+                "75000 Jicks",
+                "2 Cryptocurrency",
+            }
+        },
+        CombatEventRewards = {
+            generic = {
+		        "A random Common Joker (Doesn't need room)",
+		        "A random Uncommon Joker (Must have room)",
+		        "Up to 2 random Tarot cards (Must have room)",
+		        "Up to 2 random Planet cards (Must have room)",
+		        "Up to 2 random Common Bottlecaps (Must have room)",
+		        "1 random Uncommon Bottlecap (Must have room)",
+		        "1 random Cheque card (Must have room)",
+		        "Up to 2 random Hanafuda cards (Must have room)",
+		        "2 random Tags",
+		        "A Double Tag",
+		        "$4",
+		        "30 credits",
+		        "35000 Jicks",
+		        "0.5 Cryptocurrency",
+            },
+        },
+        EncounterEventRewards = {
+            generic = {
+                "A random Uncommon Joker (Doesn't need room)",
+                "A random Rare Joker (Must have room)",
+                "1 random Spectral card (Must have room)",
+                "Up to 2 random Uncommon Bottlecaps (Must have room)",
+                "1 random Rare Bottlecap (Must have room)",
+                "Up to 2 random Cheque cards (Must have room)",
+                "5 random Tags",
+                "2 Double Tags",
+                "$8",
+                "85 credits",
                 "75000 Jicks",
                 "2 Cryptocurrency",
             }
